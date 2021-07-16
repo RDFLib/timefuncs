@@ -1,40 +1,86 @@
 PREFIX time: <http://www.w3.org/2006/time#>
 BASE <http://w3id.org/time-function/testdata/before/>
 
-<ref1a> time:hasTime <refTE1a> .
-<x1a> time:hasTime <xTE1a> .
-<xTE1a> time:before <refTE1a> .
+# x TE declared as being before ref TE
+<refA> time:hasTime <refTEA> .
+<xA> time:hasTime <xTEA> .
+<xTEA> time:before <refTEA> .
 
-<ref1b> time:hasTime <refTE1b> .
-<x1b> time:hasTime [
-    time:before <refTE1b>
+<refB> time:hasTime <refTEB> .
+<xB> time:hasTime [
+    time:before <refTEB>
 ] .
 
-<ref2a> time:hasTime <refTE2a> .
-<refTE2a> time:after <xTE2a> .
-<x2a> time:hasTime <xTE2a> .
+# ref TE declared as being after x TE
+<refC> time:hasTime <refTEC> .
+<refTEC> time:after <xTEC> .
+<xC> time:hasTime <xTEC> .
 
-<ref2b> time:hasTime [
-    time:after <xTE2b>
+<refD> time:hasTime [
+    time:after <xTED>
 ] .
-<x2b> time:hasTime <xTE2b> .
+<xD> time:hasTime <xTED> .
 
+# TE of x is calculated to be before TE of ref
+<refE> time:hasTime [
+    time:inXSDDateTimeStamp "2021-07-16T00:00:00Z"
+] .
 
-<ref3> time:hasTime [
-    time:inXSDDateTimeStamp "2021-07-16T00:00:00Z" ] .
-
-<x3> time:hasTime [
+<xE> time:hasTime [
     time:inXSDDateTimeStamp "2021-07-15T23:59:59Z"
 ] .
 
-<ref4> time:hasTime [
+# end of the TE of x is calculated to be before the beginning of the TE of ref
+<refF> time:hasTime [
     time:hasBeginning [
         time:inXSDDateTimeStamp "2021-07-16T00:00:00Z"
     ] ;
 ] .
 
-<x4> time:hasTime [
+<xF> time:hasTime [
     time:hasEnd [
         time:inXSDDateTimeStamp "2021-07-15T23:59:59Z"
     ] ;
 ] .
+
+# TE of x is calculated to be before the beginning of the TE of ref
+<refG> time:hasTime [
+    time:hasBeginning [
+        time:inXSDDateTimeStamp "2021-07-16T00:00:00Z"
+    ] ;
+] .
+
+<xG> time:hasTime [
+    time:inXSDDateTimeStamp "2021-07-15T23:59:59Z"
+] .
+
+# TE of x is calculated to be before the beginning of the TE of ref
+<refH> time:hasTime [
+    time:hasBeginning [
+        time:after <xTEH> ;
+    ] ;
+] .
+<xH> time:hasTime <xTEH> .
+
+<xI> time:hasTime [
+    time:hasEnd [
+        time:before <refTEI> ;
+    ] ;
+] .
+<refI> time:hasTime <refTEI> .
+
+<refJ> time:hasTime [
+    time:hasBeginning <z> ;
+] .
+<xJ> time:hasTime [
+    time:hasEnd <z1> ;
+] .
+<z> time:after <z1> .
+
+<refK> time:hasTime [
+    time:hasBeginning <m> ;
+] .
+<xK> time:hasTime [
+    time:hasEnd <m1> ;
+] .
+<m1> time:before <m> .

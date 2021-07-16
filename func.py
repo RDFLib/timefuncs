@@ -37,37 +37,35 @@ BASE <http://w3id.org/time-function/testdata/before/>
 
 SELECT ?x
 WHERE {
-    BIND (<ref2b> AS ?ref)
+    BIND (<refK> AS ?ref)
     ?ref time:hasTime ?refTE .
     ?x time:hasTime ?xTE .
     
-    {
-        OPTIONAL {
-            ?xTE time:before ?refTE . 
+    {   # Cases 1 & 3
+        OPTIONAL {             
+            ?xTE time:hasEnd?/time:before ?refTE . 
         }
-    } UNION {
+    } UNION {  # Cases 1 & 4
         OPTIONAL {
-            ?refTE time:after ?xTE . 
+            ?refTE time:hasBeginning?/time:after ?xTE .
         }
-    } UNION {
+    } UNION {  # Case 2
         OPTIONAL {
-            ?refTE time:inXSDDateTimeStamp ?refXSD .
-            ?xTE time:inXSDDateTimeStamp ?xXSD .
+            ?refTE time:hasBeginning/time:after ?z .
+            ?xTE time:hasEnd ?z . 
         }
-    } UNION {
+    } UNION {  # Cases 2
         OPTIONAL {
-            ?refTE time:hasBeginning/time:inXSDDateTimeStamp ?refXSD .
-            ?xTE time:hasEnd/time:inXSDDateTimeStamp ?xXSD .
+            ?refTE time:hasBeginning ?z .
+            ?xTE time:hasEnd/time:before ?z . 
+        }        
+    } UNION {  # Cases 5 - 8
+        OPTIONAL {
+            ?refTE time:hasBeginning?/time:inXSDDateTimeStamp ?refXSD .
+            ?xTE time:hasEnd?/time:inXSDDateTimeStamp ?xXSD .
         }
     }
 
-    # FILTER {
-    #     IF (
-    #         !?refXSD && !?xXSD,  
-    #         true,
-    #         ?xXSD < ?refXSD
-    #     )    
-    # }
     BIND (
         IF (
             !BOUND(?refXSD) && !BOUND(?xXSD),  
