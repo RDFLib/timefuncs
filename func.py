@@ -1,6 +1,7 @@
 """
 Functions derived from OWL TIME
 """
+import sys
 from rdflib import Graph, Namespace
 from rdflib.namespace import RDF, RDFS, TIME, XSD
 TI = Namespace("http://www.w3.org/2021/time/test/individual/")
@@ -37,33 +38,23 @@ BASE <http://w3id.org/time-function/testdata/before/>
 
 SELECT ?x
 WHERE {
-    BIND (<refK> AS ?ref)
+    BIND (<xxx> AS ?ref)
     ?ref time:hasTime ?refTE .
     ?x time:hasTime ?xTE .
     
-    {   # Cases 1 & 3
-        OPTIONAL {             
-            ?xTE time:hasEnd?/time:before ?refTE . 
-        }
+    {   # Cases 1 & 3          
+        ?xTE time:hasEnd?/time:before ?refTE . 
     } UNION {  # Cases 1 & 4
-        OPTIONAL {
-            ?refTE time:hasBeginning?/time:after ?xTE .
-        }
+        ?refTE time:hasBeginning?/time:after ?xTE .
     } UNION {  # Case 2
-        OPTIONAL {
-            ?refTE time:hasBeginning/time:after ?z .
-            ?xTE time:hasEnd ?z . 
-        }
+        ?refTE time:hasBeginning?/time:after ?z .
+        ?xTE time:hasEnd ?z . 
     } UNION {  # Cases 2
-        OPTIONAL {
-            ?refTE time:hasBeginning ?z .
-            ?xTE time:hasEnd/time:before ?z . 
-        }        
+        ?refTE time:hasBeginning ?z .
+        ?xTE time:hasEnd?/time:before ?z .    
     } UNION {  # Cases 5 - 8
-        OPTIONAL {
-            ?refTE time:hasBeginning?/time:inXSDDateTimeStamp ?refXSD .
-            ?xTE time:hasEnd?/time:inXSDDateTimeStamp ?xXSD .
-        }
+        ?refTE time:hasBeginning?/time:inXSDDateTimeStamp ?refXSD .
+        ?xTE time:hasEnd?/time:inXSDDateTimeStamp ?xXSD .
     }
 
     BIND (
@@ -76,7 +67,7 @@ WHERE {
     )
     FILTER(?test)    
 }
-"""
+""".replace("xxx", sys.argv[1])
 g = Graph().parse("./tests/before.ttl")
 for r in g.query(q, initNs=prefixes):
     print(r)
