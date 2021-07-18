@@ -3,64 +3,7 @@ Functions derived from OWL TIME
 """
 from rdflib import Graph, Namespace, URIRef
 
-before_data = """
-    PREFIX time: <http://www.w3.org/2006/time#>
-    PREFIX : <https://w3id.org/time-function/testdata/before/>
-    
-    # x declared before ref
-    :xA time:before :refA .
-    
-    # end of x declared before ref
-    :xB time:hasEnd [
-        time:before :refB
-    ] .
-    
-    # ref declared after x
-    :refC time:after :xC .
-    
-    # start of ref declared after x
-    :refD time:hasBeginning [
-        time:after :xD
-    ] .
-    
-    # end of x declared before start of ref
-    :refE time:hasBeginning :startE .
-    :xE time:hasEnd [
-        time:before :startE
-    ] .
-    
-    # start of ref declared after end of x
-    :refF time:hasBeginning [
-        time:after :endF
-    ] .
-    :xF time:hasEnd :endF .
-    
-    # x calculated before ref
-    :refG time:inXSDDateTimeStamp "2021-07-16T00:00:00Z" .
-    :xG time:inXSDDateTimeStamp "2021-07-15T23:59:59Z" .
-    
-    # end of x is calculated before ref
-    :refH time:inXSDDateTimeStamp "2021-07-16T00:00:00Z" .
-    :xH time:hasEnd [
-        time:inXSDDateTimeStamp "2021-07-15T23:59:59Z"
-    ] .
-    
-    # beginning of ref calculated after x
-    :refI time:hasBeginning [
-        time:inXSDDateTimeStamp "2021-07-16T00:00:00Z" 
-    ] .
-    :xI time:inXSDDateTimeStamp "2021-07-15T23:59:59Z" .
-    
-    # end of x calculated to be before the beginning of ref
-    :refJ time:hasBeginning [
-        time:inXSDDateTimeStamp "2021-07-16T00:00:00Z"
-    ] .
-    :xJ time:hasEnd [
-        time:inXSDDateTimeStamp "2021-07-15T23:59:59Z"
-    ] .
-    """
-
-g = Graph().parse(data=before_data)
+g = Graph().parse("test_isBefore_data.ttl")
 
 
 def isBefore(g: Graph, ref: URIRef, x: URIRef):
@@ -122,4 +65,3 @@ def test_isBefore():
     assert not isBefore(g, BEFORE.xA, BEFORE.refA)
     assert not isBefore(g, BEFORE.xG, BEFORE.refG)
     assert not isBefore(g, BEFORE.xJ, BEFORE.refJ)
-
