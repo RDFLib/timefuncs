@@ -1,0 +1,51 @@
+PREFIX time: <http://www.w3.org/2006/time#>
+PREFIX : <https://w3id.org/time-function/testdata/inside/>
+
+:a01 a time:Interval .
+:b01 a time:Instant .
+
+:a02 a time:Interval .
+:b02 a time:Instant .
+
+:a03 a time:Interval .
+:b03 a time:Instant .
+
+:a04 a time:Interval .
+:b04 a time:Instant .
+
+:a05 a time:Interval .
+:b05 a time:Instant .
+
+:a06 a time:Interval .
+:b06 a time:Instant .
+
+:a07 a time:Interval .
+:b07 a time:Instant .
+
+:b08 a time:Instant .
+
+
+:a01 time:inside :b01 .
+:b02 time:inside :a02 .
+
+:a03 time:before :b03 .
+:b04 time:before :a04 .
+
+:a05 time:after :b05 .
+:b06 time:after :a06 .
+
+:a07
+    time:hasBeginning :a07_beginning ;
+    time:hasEnd :a07_end ;
+.
+
+:b07
+    time:after :a07_beginning ;
+    time:before :a07_end ;
+.
+
+# a second Instant inside :a7
+:b08
+    time:after :a07_beginning ;
+    time:before :a07_end ;
+.

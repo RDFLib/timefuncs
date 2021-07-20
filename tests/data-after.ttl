@@ -1,0 +1,84 @@
+PREFIX time: <http://www.w3.org/2006/time#>
+PREFIX : <https://w3id.org/time-function/testdata/after/>
+
+:refA a time:TemporalEntity .
+:xA a time:TemporalEntity .
+
+:refB a time:TemporalEntity .
+:xB a time:TemporalEntity .
+
+:refC a time:TemporalEntity .
+:xC a time:TemporalEntity .
+
+:refD a time:TemporalEntity .
+:xD a time:TemporalEntity .
+
+:refE a time:TemporalEntity .
+:xE a time:TemporalEntity .
+
+:refF a time:TemporalEntity .
+:xF a time:TemporalEntity .
+
+:refG a time:TemporalEntity .
+:xG a time:TemporalEntity .
+
+:refH a time:TemporalEntity .
+:xH a time:TemporalEntity .
+
+:refI a time:TemporalEntity .
+:xI a time:TemporalEntity .
+
+:refJ a time:TemporalEntity .
+:xJ a time:TemporalEntity .
+
+# x declared before ref
+:xA time:after :refA .
+
+# end of x declared before ref
+:xB time:hasBeginning [
+    time:after :refB
+] .
+
+# ref declared after x
+:refC time:before :xC .
+
+# start of ref declared after x
+:refD time:hasEnd [
+    time:before :xD
+] .
+
+# end of x declared before start of ref
+:refE time:hasEnd :startE .
+:xE time:hasBeginning [
+    time:after :startE
+] .
+
+# end of ref declared before start of x
+:refF time:hasEnd [
+    time:before :startF
+] .
+:xF time:hasBeginning :startF .
+
+# x calculated after ref
+:refG time:inXSDDateTimeStamp "2021-07-15T23:59:59Z" .
+:xG time:inXSDDateTimeStamp "2021-07-16T00:00:00Z" .
+
+# end of x is calculated after ref
+:refH time:inXSDDateTimeStamp "2021-07-15T23:59:59Z" .
+:xH time:hasEnd [
+    time:inXSDDateTimeStamp "2021-07-16T00:00:00Z"
+] .
+
+# beginning of ref calculated before x
+:refI time:hasBeginning [
+    time:inXSDDateTimeStamp "2021-07-15T23:59:59Z"
+] .
+:xI time:inXSDDateTimeStamp "2021-07-16T00:00:00Z" .
+
+# end of x calculated to be after the beginning of ref
+:refJ time:hasBeginning [
+    time:inXSDDateTimeStamp "2021-07-15T23:59:59Z"
+] .
+:xJ time:hasEnd [
+    time:inXSDDateTimeStamp "2021-07-16T00:00:00Z"
+] .
