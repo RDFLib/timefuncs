@@ -28,6 +28,7 @@ def test_has_inside():
         (str(INSIDE.a01), str(INSIDE.b01)),
         (str(INSIDE.a07), str(INSIDE.b07)),
         (str(INSIDE.a07), str(INSIDE.b08)),
+        (str(INSIDE.a09), str(INSIDE.b09)),
     ]
 
     actual = sorted([

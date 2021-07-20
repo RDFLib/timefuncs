@@ -148,8 +148,16 @@ def has_inside(e, ctx) -> Literal:
 
     for a_beginning in g.objects(a, TIME.hasBeginning*OneOrMore):
         for a_end in g.objects(a, TIME.hasEnd*OneOrMore):
+            # declared
             if (b, TIME.after, a_beginning) in g and (b, TIME.before, a_end) in g:
                 return Literal(True)
+
+            # calculated
+            for a_beginning_time in g.objects(a_beginning, TIME.inXSDDateTimeStamp | TIME.inXSDDateTime | TIME.inXSDDate):
+                for a_end_time in g.objects(a_end, TIME.inXSDDateTimeStamp | TIME.inXSDDateTime | TIME.inXSDDate):
+                    for b_time in g.objects(b, TIME.inXSDDateTimeStamp | TIME.inXSDDateTime | TIME.inXSDDate):
+                        if a_beginning_time < b_time < a_end_time:
+                            return Literal(True)
 
     return Literal(False)
 

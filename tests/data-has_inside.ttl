@@ -24,6 +24,9 @@ PREFIX : <https://w3id.org/time-function/testdata/inside/>
 
 :b08 a time:Instant .
 
+:a09 a time:Interval .
+:b09 a time:Instant .
+
 
 :a01 time:inside :b01 .
 :b02 time:inside :a02 .
@@ -49,3 +52,13 @@ PREFIX : <https://w3id.org/time-function/testdata/inside/>
     time:after :a07_beginning ;
     time:before :a07_end ;
 .
+
+:a09
+    time:hasBeginning [
+        time:inXSDDateTime "2021-07-19T12:34:56.0"
+    ] ;
+    time:hasEnd [
+        time:inXSDDate "2021-07-21"
+    ] ;
+.
+:b09 time:inXSDDate "2021-07-20" .
