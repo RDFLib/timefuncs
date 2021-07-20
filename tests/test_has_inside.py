@@ -14,7 +14,7 @@ tests_dir = Path(__file__).parent
 def test_has_inside():
     register_custom_function(TFUN.hasInside, has_inside, raw=True)
 
-    g = Graph().parse(str(tests_dir / "data-has_inside.ttl"))
+    g = Graph().parse(str(tests_dir / "data" / "has_inside.ttl"))
     q = """
         SELECT ?a ?b
         WHERE {

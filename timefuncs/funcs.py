@@ -253,6 +253,36 @@ def is_contained_by(e, ctx) -> Literal:
     if (b, TIME.intervalContains, a) in g:
         return Literal(True)
 
+    for a_beginning in g.objects(a, TIME.hasBeginning):
+        for a_end in g.objects(a, TIME.hasEnd):
+            for b_beginning in g.objects(b, TIME.hasBeginning):
+                for b_end in g.objects(b, TIME.hasEnd):
+                    # declared
+                    if (a_beginning, TIME.after, b_beginning) in g and (a_end, TIME.before, b_end) in g:
+                        return Literal(True)
+                    if (b_beginning, TIME.before, a_beginning) in g and (a_end, TIME.before, b_end) in g:
+                        return Literal(True)
+                    if (b_beginning, TIME.before, a_beginning) in g and (b_end, TIME.after, a_end) in g:
+                        return Literal(True)
+                    if (a_beginning, TIME.after, b_beginning) in g and (b_end, TIME.after, a_end) in g:
+                        return Literal(True)
+
+                    # calculated
+                    for a_beginning_time in g.objects(
+                            a_beginning,
+                            TIME.inXSDDateTimeStamp | TIME.inXSDDateTime | TIME.inXSDDate):
+                        for a_end_time in g.objects(
+                                a_end,
+                                TIME.inXSDDateTimeStamp | TIME.inXSDDateTime | TIME.inXSDDate):
+                            for b_beginning_time in g.objects(
+                                    b_beginning,
+                                    TIME.inXSDDateTimeStamp | TIME.inXSDDateTime | TIME.inXSDDate):
+                                for b_end_time in g.objects(
+                                        b_end,
+                                        TIME.inXSDDateTimeStamp | TIME.inXSDDateTime | TIME.inXSDDate):
+                                    if b_beginning_time < a_beginning_time and a_end_time < b_end_time:
+                                        return Literal(True)
+
     return Literal(False)
 
 

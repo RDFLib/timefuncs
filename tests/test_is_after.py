@@ -6,6 +6,7 @@ from rdflib.plugins.sparql.operators import register_custom_function
 from timefuncs import is_after
 
 TFUN = Namespace("https://w3id.org/time-function/")
+AFTER = Namespace("https://w3id.org/time-function/testdata/after/")
 
 tests_dir = Path(__file__).parent
 
@@ -13,7 +14,7 @@ tests_dir = Path(__file__).parent
 def test_is_after():
     register_custom_function(TFUN.isAfter, is_after, raw=True)
 
-    g = Graph().parse(str(tests_dir / "data-after.ttl"))
+    g = Graph().parse(str(tests_dir / "data" / "after.ttl"))
     q = """
         SELECT ?a ?b
         WHERE {
@@ -22,52 +23,30 @@ def test_is_after():
 
             FILTER tfun:isAfter(?a, ?b)
         }
-        """
+        """        
     expected = [
-        ('https://w3id.org/time-function/testdata/after/xA',
-        'https://w3id.org/time-function/testdata/after/refA'),
-        ('https://w3id.org/time-function/testdata/after/xB',
-        'https://w3id.org/time-function/testdata/after/refB'),
-        ('https://w3id.org/time-function/testdata/after/xC',
-        'https://w3id.org/time-function/testdata/after/refC'),
-        ('https://w3id.org/time-function/testdata/after/xD',
-        'https://w3id.org/time-function/testdata/after/refD'),
-        ('https://w3id.org/time-function/testdata/after/xE',
-        'https://w3id.org/time-function/testdata/after/refE'),
-        ('https://w3id.org/time-function/testdata/after/xF',
-        'https://w3id.org/time-function/testdata/after/refF'),
-        ('https://w3id.org/time-function/testdata/after/xG',
-        'https://w3id.org/time-function/testdata/after/refG'),
-        ('https://w3id.org/time-function/testdata/after/xG',
-        'https://w3id.org/time-function/testdata/after/refH'),
-        ('https://w3id.org/time-function/testdata/after/xG',
-        'https://w3id.org/time-function/testdata/after/refI'),
-        ('https://w3id.org/time-function/testdata/after/xG',
-        'https://w3id.org/time-function/testdata/after/refJ'),
-        ('https://w3id.org/time-function/testdata/after/xH',
-        'https://w3id.org/time-function/testdata/after/refG'),
-        ('https://w3id.org/time-function/testdata/after/xH',
-        'https://w3id.org/time-function/testdata/after/refH'),
-        ('https://w3id.org/time-function/testdata/after/xH',
-        'https://w3id.org/time-function/testdata/after/refI'),
-        ('https://w3id.org/time-function/testdata/after/xH',
-        'https://w3id.org/time-function/testdata/after/refJ'),
-        ('https://w3id.org/time-function/testdata/after/xI',
-        'https://w3id.org/time-function/testdata/after/refG'),
-        ('https://w3id.org/time-function/testdata/after/xI',
-        'https://w3id.org/time-function/testdata/after/refH'),
-        ('https://w3id.org/time-function/testdata/after/xI',
-        'https://w3id.org/time-function/testdata/after/refI'),
-        ('https://w3id.org/time-function/testdata/after/xI',
-        'https://w3id.org/time-function/testdata/after/refJ'),
-        ('https://w3id.org/time-function/testdata/after/xJ',
-        'https://w3id.org/time-function/testdata/after/refG'),
-        ('https://w3id.org/time-function/testdata/after/xJ',
-        'https://w3id.org/time-function/testdata/after/refH'),
-        ('https://w3id.org/time-function/testdata/after/xJ',
-        'https://w3id.org/time-function/testdata/after/refI'),
-        ('https://w3id.org/time-function/testdata/after/xJ',
-        'https://w3id.org/time-function/testdata/after/refJ')
+        (str(AFTER.a01), str(AFTER.b01)),
+        (str(AFTER.a02), str(AFTER.b02)),
+        (str(AFTER.a03), str(AFTER.b03)),
+        (str(AFTER.a04), str(AFTER.b04)),
+        (str(AFTER.a05), str(AFTER.b05)),
+        (str(AFTER.a06), str(AFTER.b06)),
+        (str(AFTER.a07), str(AFTER.b07)),
+        (str(AFTER.a07), str(AFTER.b08)),
+        (str(AFTER.a07), str(AFTER.b09)),
+        (str(AFTER.a07), str(AFTER.b10)),
+        (str(AFTER.a08), str(AFTER.b07)),
+        (str(AFTER.a08), str(AFTER.b08)),
+        (str(AFTER.a08), str(AFTER.b09)),
+        (str(AFTER.a08), str(AFTER.b10)),
+        (str(AFTER.a09), str(AFTER.b07)),
+        (str(AFTER.a09), str(AFTER.b08)),
+        (str(AFTER.a09), str(AFTER.b09)),
+        (str(AFTER.a09), str(AFTER.b10)),
+        (str(AFTER.a10), str(AFTER.b07)),
+        (str(AFTER.a10), str(AFTER.b08)),
+        (str(AFTER.a10), str(AFTER.b09)),
+        (str(AFTER.a10), str(AFTER.b10))
     ]
 
     actual = sorted([

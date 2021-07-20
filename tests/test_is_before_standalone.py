@@ -1,11 +1,10 @@
-"""
-Functions derived from OWL TIME
-"""
+from pathlib import Path
 from rdflib import Graph, Namespace, URIRef
 from rdflib import TIME
 from rdflib.paths import ZeroOrMore
 
-g = Graph().parse("data-before.ttl")
+tests_dir = Path(__file__).parent
+g = Graph().parse(str(tests_dir / "data" / "before.ttl"))
 
 
 def is_before_sparql(g: Graph, ref: URIRef, x: URIRef):

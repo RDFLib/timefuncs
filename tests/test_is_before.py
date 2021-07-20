@@ -6,6 +6,7 @@ from rdflib.plugins.sparql.operators import register_custom_function
 from timefuncs import is_before
 
 TFUN = Namespace("https://w3id.org/time-function/")
+BEFORE = Namespace("https://w3id.org/time-function/testdata/before/")
 
 tests_dir = Path(__file__).parent
 
@@ -13,7 +14,7 @@ tests_dir = Path(__file__).parent
 def test_is_before():
     register_custom_function(TFUN.isBefore, is_before, raw=True)
 
-    g = Graph().parse(str(tests_dir / "data-before.ttl"))
+    g = Graph().parse(str(tests_dir / "data" / "before.ttl"))
     q = """
         SELECT ?a ?b
         WHERE {
@@ -24,50 +25,28 @@ def test_is_before():
         }
         """
     expected = [
-        ('https://w3id.org/time-function/testdata/before/xA',
-        'https://w3id.org/time-function/testdata/before/refA'),
-        ('https://w3id.org/time-function/testdata/before/xB',
-        'https://w3id.org/time-function/testdata/before/refB'),
-        ('https://w3id.org/time-function/testdata/before/xC',
-        'https://w3id.org/time-function/testdata/before/refC'),
-        ('https://w3id.org/time-function/testdata/before/xD',
-        'https://w3id.org/time-function/testdata/before/refD'),
-        ('https://w3id.org/time-function/testdata/before/xE',
-        'https://w3id.org/time-function/testdata/before/refE'),
-        ('https://w3id.org/time-function/testdata/before/xF',
-        'https://w3id.org/time-function/testdata/before/refF'),
-        ('https://w3id.org/time-function/testdata/before/xG',
-        'https://w3id.org/time-function/testdata/before/refG'),
-        ('https://w3id.org/time-function/testdata/before/xG',
-        'https://w3id.org/time-function/testdata/before/refH'),
-        ('https://w3id.org/time-function/testdata/before/xG',
-        'https://w3id.org/time-function/testdata/before/refI'),
-        ('https://w3id.org/time-function/testdata/before/xG',
-        'https://w3id.org/time-function/testdata/before/refJ'),
-        ('https://w3id.org/time-function/testdata/before/xH',
-        'https://w3id.org/time-function/testdata/before/refG'),
-        ('https://w3id.org/time-function/testdata/before/xH',
-        'https://w3id.org/time-function/testdata/before/refH'),
-        ('https://w3id.org/time-function/testdata/before/xH',
-        'https://w3id.org/time-function/testdata/before/refI'),
-        ('https://w3id.org/time-function/testdata/before/xH',
-        'https://w3id.org/time-function/testdata/before/refJ'),
-        ('https://w3id.org/time-function/testdata/before/xI',
-        'https://w3id.org/time-function/testdata/before/refG'),
-        ('https://w3id.org/time-function/testdata/before/xI',
-        'https://w3id.org/time-function/testdata/before/refH'),
-        ('https://w3id.org/time-function/testdata/before/xI',
-        'https://w3id.org/time-function/testdata/before/refI'),
-        ('https://w3id.org/time-function/testdata/before/xI',
-        'https://w3id.org/time-function/testdata/before/refJ'),
-        ('https://w3id.org/time-function/testdata/before/xJ',
-        'https://w3id.org/time-function/testdata/before/refG'),
-        ('https://w3id.org/time-function/testdata/before/xJ',
-        'https://w3id.org/time-function/testdata/before/refH'),
-        ('https://w3id.org/time-function/testdata/before/xJ',
-        'https://w3id.org/time-function/testdata/before/refI'),
-        ('https://w3id.org/time-function/testdata/before/xJ',
-        'https://w3id.org/time-function/testdata/before/refJ')
+        (str(BEFORE.a01), str(BEFORE.b01)),
+        (str(BEFORE.a02), str(BEFORE.b02)),
+        (str(BEFORE.a03), str(BEFORE.b03)),
+        (str(BEFORE.a04), str(BEFORE.b04)),
+        (str(BEFORE.a05), str(BEFORE.b05)),
+        (str(BEFORE.a06), str(BEFORE.b06)),
+        (str(BEFORE.a07), str(BEFORE.b07)),
+        (str(BEFORE.a07), str(BEFORE.b08)),
+        (str(BEFORE.a07), str(BEFORE.b09)),
+        (str(BEFORE.a07), str(BEFORE.b10)),
+        (str(BEFORE.a08), str(BEFORE.b07)),
+        (str(BEFORE.a08), str(BEFORE.b08)),
+        (str(BEFORE.a08), str(BEFORE.b09)),
+        (str(BEFORE.a08), str(BEFORE.b10)),
+        (str(BEFORE.a09), str(BEFORE.b07)),
+        (str(BEFORE.a09), str(BEFORE.b08)),
+        (str(BEFORE.a09), str(BEFORE.b09)),
+        (str(BEFORE.a09), str(BEFORE.b10)),
+        (str(BEFORE.a10), str(BEFORE.b07)),
+        (str(BEFORE.a10), str(BEFORE.b08)),
+        (str(BEFORE.a10), str(BEFORE.b09)),
+        (str(BEFORE.a10), str(BEFORE.b10))
     ]
 
     actual = sorted([
