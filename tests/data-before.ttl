@@ -1,6 +1,36 @@
 PREFIX time: <http://www.w3.org/2006/time#>
 PREFIX : <https://w3id.org/time-function/testdata/before/>
 
+:refA a time:TemporalEntity .
+:xA a time:TemporalEntity .
+
+:refB a time:TemporalEntity .
+:xB a time:TemporalEntity .
+
+:refC a time:TemporalEntity .
+:xC a time:TemporalEntity .
+
+:refD a time:TemporalEntity .
+:xD a time:TemporalEntity .
+
+:refE a time:TemporalEntity .
+:xE a time:TemporalEntity .
+
+:refF a time:TemporalEntity .
+:xF a time:TemporalEntity .
+
+:refG a time:TemporalEntity .
+:xG a time:TemporalEntity .
+
+:refH a time:TemporalEntity .
+:xH a time:TemporalEntity .
+
+:refI a time:TemporalEntity .
+:xI a time:TemporalEntity .
+
+:refJ a time:TemporalEntity .
+:xJ a time:TemporalEntity .
+
 # x declared before ref
 :xA time:before :refA .
 
