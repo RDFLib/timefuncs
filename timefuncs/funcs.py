@@ -247,10 +247,25 @@ def is_contained_by(e, ctx) -> Literal:
 
     g = ctx.ctx.graph
 
-    if (a, TIME.intervalDuring, b) in g:
+    # for a, b in g.subject_objects(TIME.intervalDuring):
+    #     print(a, b)
+    #     g.add((b, TIME.intervalContains, a))
+    #
+    # print("------")
+    # for a, b in g.subject_objects(TIME.intervalContains):
+    #     print(a, b)
+    #     g.add((b, TIME.intervalDuring, a))
+
+    if (a, TIME.intervalDuring*OneOrMore, b) in g:
         return Literal(True)
 
-    if (b, TIME.intervalContains, a) in g:
+    if (b, TIME.intervalContains*OneOrMore, a) in g:
+        return Literal(True)
+
+    if (a, (TIME.intervalDuring*OneOrMore | TIME.intervalContains*OneOrMore)*OneOrMore, b) in g:
+        return Literal(True)
+
+    if (b, (TIME.intervalDuring*OneOrMore | TIME.intervalContains*OneOrMore)*OneOrMore, a) in g:
         return Literal(True)
 
     for a_beginning in g.objects(a, TIME.hasBeginning):

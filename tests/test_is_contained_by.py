@@ -3,33 +3,33 @@ from rdflib import Graph, Namespace
 from rdflib.namespace import TIME
 from rdflib.plugins.sparql.operators import register_custom_function
 
-from timefuncs import has_inside
+from timefuncs import is_contained_by
 
 TFUN = Namespace("https://w3id.org/time-function/")
-INSIDE = Namespace("https://w3id.org/time-function/testdata/inside/")
+ICB = Namespace("https://w3id.org/time-function/testdata/iscontainedby/")
 
 tests_dir = Path(__file__).parent
 
 
 def test_is_contained_by():
-    # NOT IMPLEMENTED YET
-    register_custom_function(TFUN.hasInside, has_inside, raw=True)
+    register_custom_function(TFUN.isContainedBy, is_contained_by, raw=True)
 
-    g = Graph().parse(str(tests_dir / "data" / "has_inside.ttl"))
+    g = Graph().parse(str(tests_dir / "data" / "is_contained_by.ttl"))
     q = """
         SELECT ?a ?b
         WHERE {
             ?a a time:Interval .
-            ?b a time:Instant .
+            ?b a time:Interval .
 
-            FILTER tfun:hasInside(?a, ?b)
+            FILTER tfun:isContainedBy(?a, ?b)
         }
         """
     expected = [
-        (str(INSIDE.a01), str(INSIDE.b01)),
-        (str(INSIDE.a07), str(INSIDE.b07)),
-        (str(INSIDE.a07), str(INSIDE.b08)),
-        (str(INSIDE.a09), str(INSIDE.b09)),
+        (str(ICB.a01), str(ICB.b01)),
+        (str(ICB.a02), str(ICB.b02)),
+        (str(ICB.a03), str(ICB.b03)),
+        (str(ICB.a04), str(ICB.b04)),
+        (str(ICB.a05), str(ICB.b05)),
     ]
 
     actual = sorted([

@@ -1,67 +1,37 @@
 PREFIX time: <http://www.w3.org/2006/time#>
-PREFIX : <https://w3id.org/time-function/testdata/inside/>
+PREFIX : <https://w3id.org/time-function/testdata/iscontainedby/>
 
-:a01 a time:Instant .
+:a01 a time:Interval .
 :b01 a time:Interval .
 
-:a02 a time:Instant .
+:a02 a time:Interval .
 :b02 a time:Interval .
 
-:a03 a time:Instant .
+:a03 a time:Interval .
 :b03 a time:Interval .
 
-:a04 a time:Instant .
+:a04 a time:Interval .
 :b04 a time:Interval .
 
-:a05 a time:Instant .
+:a05 a time:Interval .
 :b05 a time:Interval .
 
-:a06 a time:Instant .
-:b06 a time:Interval .
 
-:a07 a time:Instant .
-:b07 a time:Interval .
+:a01 time:intervalDuring :b01 .
 
-:a08 a time:Instant .
+:b02 time:intervalContains :a02 .
 
-:a09 a time:Instant .
-:b09 a time:Interval .
+:a03 time:intervalDuring :x03 .
+:x03 time:intervalDuring :y03 .
+:y03 time:intervalDuring :z03 .
+:z03 time:intervalDuring :b03 .
 
+:b04 time:intervalContains :x04 .
+:x04 time:intervalContains :y04 .
+:y04 time:intervalContains :z04 .
+:z04 time:intervalContains :a04 .
 
-:a01 time:inside :b01 .
-:b02 time:inside :a02 .
-
-:a03 time:before :b03 .
-:b04 time:before :a04 .
-
-:a05 time:after :b05 .
-:b06 time:after :a06 .
-
-:b07
-    time:hasBeginning :b07_beginning ;
-    time:hasEnd :b07_end ;
-.
-
-:a07
-    time:after :b07_beginning ;
-    time:before :b07_end ;
-.
-
-# a second Instant inside :b7
-:a08
-    time:after :b07_beginning ;
-    time:before :b07_end ;
-.
-
-:a09 time:inXSDDateTime "2021-07-20T20:00:01" .
-:b09
-    time:hasBeginning [
-        time:inXSDDateTime "2021-07-20T12:34:56.0"
-    ] ;
-    time:hasEnd [
-        time:inXSDDate "2021-07-21"
-    ] ;
-.
-
-
-
+:a05 time:intervalDuring :x05 .
+:y05 time:intervalContains :x05 .
+:y05 time:intervalDuring :z05 .
+:z05 time:intervalContains :b05 .
