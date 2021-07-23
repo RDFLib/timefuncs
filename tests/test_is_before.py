@@ -2,7 +2,8 @@ from pathlib import Path
 from rdflib import Graph, Namespace
 from rdflib.namespace import TIME
 from rdflib.plugins.sparql.operators import register_custom_function
-
+import sys
+sys.path.append("..")
 from timefuncs import is_before
 
 TFUN = Namespace("https://w3id.org/time-function/")
@@ -46,7 +47,10 @@ def test_is_before():
         (str(BEFORE.a10), str(BEFORE.b07)),
         (str(BEFORE.a10), str(BEFORE.b08)),
         (str(BEFORE.a10), str(BEFORE.b09)),
-        (str(BEFORE.a10), str(BEFORE.b10))
+        (str(BEFORE.a10), str(BEFORE.b10)),
+        (str(BEFORE.a11), str(BEFORE.b11)),
+        (str(BEFORE.a12), str(BEFORE.b12)),
+        (str(BEFORE.a13), str(BEFORE.b13)),
     ]
 
     actual = sorted([
@@ -58,3 +62,7 @@ def test_is_before():
     ])
 
     assert actual == expected
+
+
+if __name__ == "__main__":
+    test_is_before()

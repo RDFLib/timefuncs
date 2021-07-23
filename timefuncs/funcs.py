@@ -1,4 +1,6 @@
-from rdflib import Literal, TIME
+from typing import List, Union, Tuple
+from typing import Literal as TLiteral
+from rdflib import Graph, BNode, Literal, TIME, URIRef
 from rdflib.paths import ZeroOrMore, OneOrMore
 
 
@@ -22,8 +24,8 @@ def is_before(e, ctx) -> Literal:
 
     """
     try:
-        ref = e.expr[1]
-        x = e.expr[0]
+        a = e.expr[0]
+        b = e.expr[1]
     except Exception as err:
         raise ValueError(
             "This function, isBefore(a, b), requires two IRI parameters, "
@@ -32,25 +34,28 @@ def is_before(e, ctx) -> Literal:
 
     g = ctx.ctx.graph
 
-    if (x, TIME.hasEnd*ZeroOrMore/TIME.before, ref) in g:
+    if (a, TIME.hasEnd*ZeroOrMore/TIME.before, b) in g:
         return Literal(True)
 
-    if (ref, TIME.hasBeginning*ZeroOrMore/TIME.after, x) in g:
+    if (b, TIME.hasBeginning*ZeroOrMore/TIME.after, a) in g:
         return Literal(True)
 
-    for z in g.objects(ref, TIME.hasBeginning*ZeroOrMore/TIME.after):
-        if (x, TIME.hasEnd, z) in g:
+    for z in g.objects(b, TIME.hasBeginning*ZeroOrMore/TIME.after):
+        if (a, TIME.hasEnd, z) in g:
             return Literal(True)
 
-    for z in g.objects(x, TIME.hasEnd*ZeroOrMore/TIME.before):
-        if (ref, TIME.hasBeginning, z) in g:
+    for z in g.objects(a, TIME.hasEnd*ZeroOrMore/TIME.before):
+        if (b, TIME.hasBeginning, z) in g:
             return Literal(True)
 
-    ref_xsds = list(g.objects(ref, TIME.hasBeginning*ZeroOrMore/TIME.inXSDDateTimeStamp))
-    x_xsds = list(g.objects(x, TIME.hasEnd*ZeroOrMore/TIME.inXSDDateTimeStamp))
+    ref_xsds = list(g.objects(b, TIME.hasBeginning*ZeroOrMore/TIME.inXSDDateTimeStamp))
+    x_xsds = list(g.objects(a, TIME.hasEnd*ZeroOrMore/TIME.inXSDDateTimeStamp))
     if len(ref_xsds) > 0 and len(x_xsds) > 0:
         if sorted(x_xsds)[-1] < sorted(ref_xsds)[0]:
             return Literal(True)
+
+    if _path_exists(g, a, b, [(TIME.before, "outbound"), (TIME.after, "inbound")]):
+        return Literal(True)
 
     return Literal(False)
 
@@ -75,8 +80,8 @@ def is_after(e, ctx) -> Literal:
 
     """
     try:
-        ref = e.expr[1]
-        x = e.expr[0]
+        a = e.expr[0]
+        b = e.expr[1]
     except Exception as err:
         raise ValueError(
             "This function, isAfter(a, b), requires two IRI parameters, "
@@ -85,25 +90,28 @@ def is_after(e, ctx) -> Literal:
 
     g = ctx.ctx.graph
 
-    if (x, TIME.hasBeginning*ZeroOrMore/TIME.after, ref) in g:
+    if (a, TIME.hasBeginning*ZeroOrMore/TIME.after, b) in g:
         return Literal(True)
 
-    if (ref, TIME.hasEnd*ZeroOrMore/TIME.before, x) in g:
+    if (b, TIME.hasEnd*ZeroOrMore/TIME.before, a) in g:
         return Literal(True)
 
-    for z in g.objects(ref, TIME.hasEnd*ZeroOrMore/TIME.before):
-        if (x, TIME.hasBeginning, z) in g:
+    for z in g.objects(b, TIME.hasEnd*ZeroOrMore/TIME.before):
+        if (a, TIME.hasBeginning, z) in g:
             return Literal(True)
 
-    for z in g.objects(x, TIME.hasBeginning*ZeroOrMore/TIME.after):
-        if (ref, TIME.hasEnd, z) in g:
+    for z in g.objects(a, TIME.hasBeginning*ZeroOrMore/TIME.after):
+        if (b, TIME.hasEnd, z) in g:
             return Literal(True)
 
-    ref_xsds = list(g.objects(ref, TIME.hasBeginning*ZeroOrMore/TIME.inXSDDateTimeStamp))
-    x_xsds = list(g.objects(x, TIME.hasEnd*ZeroOrMore/TIME.inXSDDateTimeStamp))
+    ref_xsds = list(g.objects(b, TIME.hasBeginning*ZeroOrMore/TIME.inXSDDateTimeStamp))
+    x_xsds = list(g.objects(a, TIME.hasEnd*ZeroOrMore/TIME.inXSDDateTimeStamp))
     if len(ref_xsds) > 0 and len(x_xsds) > 0:
         if sorted(x_xsds)[0] > sorted(ref_xsds)[-1]:
             return Literal(True)
+
+    if _path_exists(g, a, b, [(TIME.after, "outbound"), (TIME.before, "inbound")]):
+        return Literal(True)
 
     return Literal(False)
 
@@ -262,10 +270,10 @@ def is_contained_by(e, ctx) -> Literal:
     if (b, TIME.intervalContains*OneOrMore, a) in g:
         return Literal(True)
 
-    if (a, (TIME.intervalDuring*OneOrMore | TIME.intervalContains*OneOrMore)*OneOrMore, b) in g:
+    if (a, TIME.intervalDuring*OneOrMore, b) in g:
         return Literal(True)
 
-    if (b, (TIME.intervalDuring*OneOrMore | TIME.intervalContains*OneOrMore)*OneOrMore, a) in g:
+    if (b, TIME.intervalContains*OneOrMore, a) in g:
         return Literal(True)
 
     for a_beginning in g.objects(a, TIME.hasBeginning):
@@ -297,6 +305,9 @@ def is_contained_by(e, ctx) -> Literal:
                                         TIME.inXSDDateTimeStamp | TIME.inXSDDateTime | TIME.inXSDDate):
                                     if b_beginning_time < a_beginning_time and a_end_time < b_end_time:
                                         return Literal(True)
+
+    if _path_exists(g, a, b, [(TIME.intervalDuring, "outbound"), (TIME.intervalContains, "inbound")]):
+        return Literal(True)
 
     return Literal(False)
 
@@ -399,3 +410,50 @@ def has_during(e, ctx) -> Literal:
 
     g = ctx.ctx.graph
 
+
+def _path_exists(
+        g: Graph,
+        a: Union[URIRef, BNode],
+        b: Union[URIRef, BNode],
+        predicates: List[Tuple[URIRef, TLiteral["outbound", "inbound"]]]) -> bool:
+    """Finds if any path between RDF nodes a and b in graph g exists,
+    following any of the predicates supplied, in any order"""
+
+    if a == b:
+        return False
+
+    def _get_next_nodes(node, preds):
+        """Finds any nodes linked to a given node, 'node' via any of the given predicates 'pred'.
+
+        Looks for both s pred o and o pred s (inverse)"""
+        next_nodes = []
+
+        for p in preds:
+            print(p)
+            if p[1] == "outbound":
+                for o in g.objects(subject=node, predicate=p[0]):
+                    next_nodes.append(o)
+            elif p[1] == "inbound":
+                for s in g.subjects(predicate=p[0], object=node):
+                    next_nodes.append(s)
+
+        return next_nodes
+
+    # standard breadth-first search
+    def bfs(node):
+        visited = []
+        queue = []
+        visited.append(node)
+        queue.append(node)
+
+        while queue:
+            s = queue.pop(0)
+            for x in _get_next_nodes(s, predicates):
+                if x == b:
+                    return True
+                if x not in visited:
+                    visited.append(x)
+                    queue.append(x)
+        return False
+
+    return bfs(a)

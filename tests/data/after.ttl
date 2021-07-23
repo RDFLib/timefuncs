@@ -83,3 +83,18 @@ PREFIX : <https://w3id.org/time-function/testdata/after/>
 :a10 time:hasEnd [
     time:inXSDDateTimeStamp "2021-07-16T00:00:00Z"
 ] .
+
+:a11 time:after :x11 .
+:x11 time:after :y11 .
+:y11 time:after :z11 .
+:z11 time:after :b11 .
+
+:b12 time:before :z12 .
+:z12 time:before :y12 .
+:y12 time:before :x12 .
+:x12 time:before :a12 .
+
+:a13 time:after :x13 .
+:y13 time:before :x13 .
+:y13 time:after :z13 .
+:b13 time:before :z13 .

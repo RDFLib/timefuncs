@@ -31,6 +31,14 @@ PREFIX : <https://w3id.org/time-function/testdata/before/>
 :a10 a time:TemporalEntity .
 :b10 a time:TemporalEntity .
 
+:a11 a time:TemporalEntity .
+:b11 a time:TemporalEntity .
+
+:a12 a time:TemporalEntity .
+:b12 a time:TemporalEntity .
+
+:a13 a time:TemporalEntity .
+:b13 a time:TemporalEntity .
 
 # x declared before ref
 :a01 time:before :b01 .
@@ -61,25 +69,40 @@ PREFIX : <https://w3id.org/time-function/testdata/before/>
 :a06 time:hasEnd :end06 .
 
 # x calculated before ref
-:b07 time:inXSDDateTimeStamp "2021-07-16T00:00:00Z" .
 :a07 time:inXSDDateTimeStamp "2021-07-15T23:59:59Z" .
+:b07 time:inXSDDateTimeStamp "2021-07-16T00:00:00Z" .
 
 # end of x is calculated before ref
-:b08 time:inXSDDateTimeStamp "2021-07-16T00:00:00Z" .
 :a08 time:hasEnd [
     time:inXSDDateTimeStamp "2021-07-15T23:59:59Z"
 ] .
+:b08 time:inXSDDateTimeStamp "2021-07-16T00:00:00Z" .
 
 # beginning of ref calculated after x
+:a09 time:inXSDDateTimeStamp "2021-07-15T23:59:59Z" .
 :b09 time:hasBeginning [
     time:inXSDDateTimeStamp "2021-07-16T00:00:00Z"
 ] .
-:a09 time:inXSDDateTimeStamp "2021-07-15T23:59:59Z" .
 
 # end of x calculated to be before the beginning of ref
-:b10 time:hasBeginning [
-    time:inXSDDateTimeStamp "2021-07-16T00:00:00Z"
-] .
 :a10 time:hasEnd [
     time:inXSDDateTimeStamp "2021-07-15T23:59:59Z"
 ] .
+:b10 time:hasBeginning [
+    time:inXSDDateTimeStamp "2021-07-16T00:00:00Z"
+] .
+
+:a11 time:before :x11 .
+:x11 time:before :y11 .
+:y11 time:before :z11 .
+:z11 time:before :b11 .
+
+:b12 time:after :z12 .
+:z12 time:after :y12 .
+:y12 time:after :x12 .
+:x12 time:after :a12 .
+
+:a13 time:before :x13 .
+:y13 time:after :x13 .
+:y13 time:before :z13 .
+:b13 time:after :z13 .
