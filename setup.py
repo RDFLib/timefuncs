@@ -1,22 +1,10 @@
-import re
 from setuptools import setup
-from pathlib import Path
-
-
-def get_version():
-    with open(Path(__file__).parent / "CHANGELOG.md") as file_:
-        return file_.readlines()[0]
-
-
-def get_long_description():
-    return open("README.md", encoding='utf-8').read()
-
 
 setup(
     name="timefuncs",
-    version=get_version(),  # __import__("timefuncs").__version__,
+    version=__import__("timefuncs").__version__,
     description="OWL TIME functions implemented as SPARQL extension functions in rdflib",
-    long_description=get_long_description(),
+    long_description=open("README.md", encoding='utf-8').read(),
     long_description_content_type="text/markdown",
     maintainer="Nicholas J. Car",
     maintainer_email="nicholas.car@anu.edu.au",

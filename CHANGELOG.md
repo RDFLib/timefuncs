@@ -1,3 +1,7 @@
+0.0.3
+-----
+* fixing version import for use via PyPI
+
 0.0.2
 -----
 * tiny updates to package structure for better PyPI releasing
