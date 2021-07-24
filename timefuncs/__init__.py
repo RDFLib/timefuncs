@@ -1,2 +1,23 @@
-from .funcs import \
-    is_before, is_after, has_inside, is_inside, is_contained_by, contains, has_during, is_during
+from .funcs import (
+    contains,
+    has_during,
+    has_inside,
+    is_after,
+    is_before,
+    is_contained_by,
+    is_during,
+    is_inside,
+)
+from rdflib import Namespace
+from rdflib.plugins.sparql.operators import register_custom_function
+__version__ = "0.0.1"
+TFUN = Namespace("https://w3id.org/time-function/")
+
+register_custom_function(TFUN.contains, contains, raw=True)
+register_custom_function(TFUN.hasDuring, has_during, raw=True)
+register_custom_function(TFUN.hasInside, has_inside, raw=True)
+register_custom_function(TFUN.isAfter, is_after, raw=True)
+register_custom_function(TFUN.isBefore, is_before, raw=True)
+register_custom_function(TFUN.isContainedBy, is_contained_by, raw=True)
+register_custom_function(TFUN.isDuring, is_during, raw=True)
+register_custom_function(TFUN.isInside, is_inside, raw=True)
