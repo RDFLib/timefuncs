@@ -1,19 +1,15 @@
 from pathlib import Path
 from rdflib import Graph, Namespace
 from rdflib.namespace import TIME
-from rdflib.plugins.sparql.operators import register_custom_function
 import sys
 sys.path.append("..")
-from timefuncs import is_before
 
-TFUN = Namespace("https://w3id.org/time-function/")
+TFUN = Namespace("https://w3id.org/timefuncs/")
 
 tests_dir = Path(__file__).parent
 
 
 def test_is_before():
-    register_custom_function(TFUN.isBefore, is_before, raw=True)
-
     g = Graph().parse(str(tests_dir / "data" / "before.ttl"))
     q = """
         SELECT ?a ?b

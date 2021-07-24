@@ -1,6 +1,6 @@
 data = """
     PREFIX time: <http://www.w3.org/2006/time#>
-    PREFIX : <https://w3id.org/time-function/testdata/pathExists/>
+    PREFIX : <https://w3id.org/timefuncs/testdata/pathExists/>
     
     :a01 time:before :x01 .
     :x01 time:before :y01 .
@@ -20,7 +20,7 @@ data = """
 
 from rdflib import Graph, Namespace, TIME
 from timefuncs.funcs import _path_exists
-PE = Namespace("https://w3id.org/time-function/testdata/pathExists/")
+PE = Namespace("https://w3id.org/timefuncs/testdata/pathExists/")
 
 g = Graph().parse(data=data)
 path = [(TIME.before, "outbound"), (TIME.after, "inbound")]

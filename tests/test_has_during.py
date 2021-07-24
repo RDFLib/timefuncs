@@ -1,19 +1,16 @@
 from pathlib import Path
 from rdflib import Graph, Namespace
 from rdflib.namespace import TIME
-from rdflib.plugins.sparql.operators import register_custom_function
 
 from timefuncs import has_during
 
-TFUN = Namespace("https://w3id.org/time-function/")
-HD = Namespace("https://w3id.org/time-function/testdata/hasduring/")
+TFUN = Namespace("https://w3id.org/timefuncs/")
+HD = Namespace("https://w3id.org/timefuncs/testdata/hasduring/")
 
 tests_dir = Path(__file__).parent
 
 
 def test_has_during():
-    register_custom_function(TFUN.hasDuring, has_during, raw=True)
-
     g = Graph().parse(str(tests_dir / "data" / "has_during.ttl"))
     q = """
         SELECT ?a ?b

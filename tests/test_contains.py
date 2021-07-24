@@ -1,19 +1,16 @@
 from pathlib import Path
 from rdflib import Graph, Namespace
 from rdflib.namespace import TIME
-from rdflib.plugins.sparql.operators import register_custom_function
 
 from timefuncs import contains
 
-TFUN = Namespace("https://w3id.org/time-function/")
-CON = Namespace("https://w3id.org/time-function/testdata/contains/")
+TFUN = Namespace("https://w3id.org/timefuncs/")
+CON = Namespace("https://w3id.org/timefuncs/testdata/contains/")
 
 tests_dir = Path(__file__).parent
 
 
 def test_contained():
-    register_custom_function(TFUN.contains, contains, raw=True)
-
     g = Graph().parse(str(tests_dir / "data" / "contains.ttl"))
     q = """
         SELECT ?a ?b

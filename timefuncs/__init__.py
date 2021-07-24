@@ -8,10 +8,18 @@ from .funcs import (
     is_during,
     is_inside,
 )
+from pathlib import Path
 from rdflib import Namespace
 from rdflib.plugins.sparql.operators import register_custom_function
-__version__ = "0.0.1"
-TFUN = Namespace("https://w3id.org/time-function/")
+
+
+def get_version():
+    with open(Path(__file__).parent.parent / "CHANGELOG.md") as file_:
+        return file_.readlines()[0]
+
+
+__version = get_version()
+TFUN = Namespace("https://w3id.org/timefuncs/")
 
 register_custom_function(TFUN.contains, contains, raw=True)
 register_custom_function(TFUN.hasDuring, has_during, raw=True)

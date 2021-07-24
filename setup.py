@@ -1,13 +1,11 @@
 import re
 from setuptools import setup
+from pathlib import Path
 
 
 def get_version():
-    _version_re = re.compile(r'__version__ = "(.*)"')
-    for line in open("timefuncs/__init__.py"):
-        version_match = _version_re.match(line)
-        if version_match:
-            return version_match.group(1)
+    with open(Path(__file__).parent / "CHANGELOG.md") as file_:
+        return file_.readlines()[0]
 
 
 def get_long_description():
@@ -22,7 +20,7 @@ setup(
     long_description_content_type="text/markdown",
     maintainer="Nicholas J. Car",
     maintainer_email="nicholas.car@anu.edu.au",
-    url="https://github.com/RDFLib/rdflib-timefuncs",
+    url="https://github.com/rdflib/timefuncs",
     license="BSD",
     packages=["timefuncs"],
     platforms=["any"],

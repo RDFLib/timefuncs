@@ -1,0 +1,18 @@
+1. Update docco
+    * README
+    * CHANGELOG - especially <VERSION_NO> on first line
+
+2. `git commit changes`
+
+3. `git tag <VERSION_NO>`
+
+4. `git push`
+
+5. `git push --tags`
+
+6. `python setup.py sdist bdist_wheel`
+
+7. `twine check dist/*`
+
+8. `twine upload dist/*`
+   `twine upload --repository testpypi dist/*`

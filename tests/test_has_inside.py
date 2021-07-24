@@ -1,19 +1,16 @@
 from pathlib import Path
 from rdflib import Graph, Namespace
 from rdflib.namespace import TIME
-from rdflib.plugins.sparql.operators import register_custom_function
 
 from timefuncs import has_inside
 
-TFUN = Namespace("https://w3id.org/time-function/")
-INSIDE = Namespace("https://w3id.org/time-function/testdata/inside/")
+TFUN = Namespace("https://w3id.org/timefuncs/")
+INSIDE = Namespace("https://w3id.org/timefuncs/testdata/inside/")
 
 tests_dir = Path(__file__).parent
 
 
 def test_has_inside():
-    register_custom_function(TFUN.hasInside, has_inside, raw=True)
-
     g = Graph().parse(str(tests_dir / "data" / "has_inside.ttl"))
     q = """
         SELECT ?a ?b

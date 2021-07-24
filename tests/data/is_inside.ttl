@@ -1,5 +1,5 @@
 PREFIX time: <http://www.w3.org/2006/time#>
-PREFIX : <https://w3id.org/time-function/testdata/inside/>
+PREFIX : <https://w3id.org/timefuncs/testdata/inside/>
 
 :a01 a time:Instant .
 :b01 a time:Interval .

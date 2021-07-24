@@ -108,7 +108,7 @@ def is_before_rdflib(g: Graph, a: URIRef, b: URIRef):
 
 
 def test_is_before_sparql():
-    BEFORE = Namespace("https://w3id.org/time-function/testdata/before/")
+    BEFORE = Namespace("https://w3id.org/timefuncs/testdata/before/")
 
     assert is_before_sparql(g, BEFORE.a01, BEFORE.b01)
     assert is_before_sparql(g, BEFORE.a02, BEFORE.b02)
@@ -130,7 +130,7 @@ def test_is_before_sparql():
 
 
 def test_is_before_rdflib():
-    BEFORE = Namespace("https://w3id.org/time-function/testdata/before/")
+    BEFORE = Namespace("https://w3id.org/timefuncs/testdata/before/")
 
     assert is_before_rdflib(g, BEFORE.a01, BEFORE.b01)
     assert is_before_rdflib(g, BEFORE.a02, BEFORE.b02)
