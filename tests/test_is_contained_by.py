@@ -30,6 +30,10 @@ def test_is_contained_by():
         (str(ICB.a03), str(ICB.b03)),
         (str(ICB.a04), str(ICB.b04)),
         (str(ICB.a05), str(ICB.b05)),
+        (str(ICB.a06), str(ICB.b06)),
+        (str(ICB.a07), str(ICB.b07)),
+        (str(ICB.a08), str(ICB.b08)),
+        (str(ICB.a09), str(ICB.b09)),
     ]
 
     actual = sorted([

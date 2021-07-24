@@ -1,0 +1,76 @@
+PREFIX time: <http://www.w3.org/2006/time#>
+PREFIX : <https://w3id.org/time-function/testdata/contains/>
+
+:a01 a time:Interval .
+:b01 a time:Interval .
+
+:a02 a time:Interval .
+:b02 a time:Interval .
+
+:a03 a time:Interval .
+:b03 a time:Interval .
+
+:a04 a time:Interval .
+:b04 a time:Interval .
+
+:a05 a time:Interval .
+:b05 a time:Interval .
+
+:a06 a time:Interval .
+:b06 a time:Interval .
+
+:a07 a time:Interval .
+:b07 a time:Interval .
+
+:a08 a time:Interval .
+:b08 a time:Interval .
+
+:a09 a time:Interval .
+:b09 a time:Interval .
+
+:a01 time:intervalContains :b01 .
+
+:b02 time:intervalDuring :a02 .
+
+:a03 time:intervalContains :x03 .
+:x03 time:intervalContains :y03 .
+:y03 time:intervalContains :z03 .
+:z03 time:intervalContains :b03 .
+
+:b04 time:intervalDuring :x04 .
+:x04 time:intervalDuring :y04 .
+:y04 time:intervalDuring :z04 .
+:z04 time:intervalDuring :a04 .
+
+:a05 time:intervalContains :x05 .
+:y05 time:intervalDuring :x05 .
+:y05 time:intervalContains :z05 .
+:b05 time:intervalDuring :z05 .
+
+:a06 time:hasBeginning [ time:before :b06_beginning ] .
+:a06 time:hasEnd  [ time:after :b06_end ] .
+:b06 time:hasBeginning :b06_beginning .
+:b06 time:hasEnd :b06_end .
+
+:a07 time:hasBeginning :a07_beginning .
+:a07 time:hasEnd :a07_end .
+:b07 time:hasBeginning [ time:after :a07_beginning ] .
+:b07 time:hasEnd  [ time:before :a07_end ] .
+
+:a08 time:hasBeginning [ time:before :b08_beginning ] .
+:a08 time:hasEnd :a08_end .
+:b08 time:hasBeginning :b08_beginning .
+:b08 time:hasEnd [ time:before :a08_end ] .
+
+:a09 time:hasBeginning [
+    time:inXSDDateTimeStamp "2021-07-16T00:00:00Z"
+] .
+:a09 time:hasEnd [
+    time:inXSDDateTimeStamp "2021-07-16T00:00:03Z"
+] .
+:b09 time:hasBeginning [
+    time:inXSDDateTimeStamp "2021-07-16T00:00:01Z"
+] .
+:b09 time:hasEnd [
+    time:inXSDDateTimeStamp "2021-07-16T00:00:02Z"
+] .
