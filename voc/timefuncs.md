@@ -9,15 +9,17 @@ Markdown documentation created by [pyLODE](http://github.com/rdflib/pyLODE)
 * **Publisher(s)**
   * [Nicholas J. Car](https://orcid.org/0000-0002-8742-7730)
     [[0000-0002-8742-7730](https://orcid.org/0000-0002-8742-7730)]
-    [nicholas.car@anu.edu.au](nicholas.car@anu.edu.au) of [Australian National University](https://www.anu.edu.au)
+    [nicholas.car@anu.edu.au](nicholas.car@anu.edu.au) of [SURROUND Australia Pty Ltd](https://surroundaustralia.com)
 * **Creators(s)**
   * [Nicholas J. Car](https://orcid.org/0000-0002-8742-7730)
     [[0000-0002-8742-7730](https://orcid.org/0000-0002-8742-7730)]
-    [nicholas.car@anu.edu.au](nicholas.car@anu.edu.au) of [Australian National University](https://www.anu.edu.au)
+    [nicholas.car@anu.edu.au](nicholas.car@anu.edu.au) of [SURROUND Australia Pty Ltd](https://surroundaustralia.com)
 * **Created**
   * 2021-07-25
 * **Modified**
   * 2021-07-25
+* **Version Information**
+  * 0.1.0
 
 * **Taxonomy RDF**
   * RDF ([timefuncs.ttl](turtle))

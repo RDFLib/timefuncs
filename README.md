@@ -6,6 +6,8 @@ This package invents SPARQL functions that are based on logic provided in [OWL T
 
 The functions are made available as functions in [RDFlib](https://pypi.org/project/rdflib/)'s SPARQL implementation where they can be called by IRI, e.g. `isBefore(a, b)` is called `tfun:isBefore(?a, ?b)`. All functions are posed as questions, "is before", and return an RDF literal `true` or `false`.
 
+This repository also contains a formal declaration of the functions that this package implements as a [SKOS](https://www.w3.org/TR/skos-reference/) vocabulary. See the [Vocabulary](#vocabulary) section below.
+
 
 ## Installation 
 Normal installation e.g. from PyPI: `pip install timefuncs`.
@@ -95,10 +97,9 @@ These functions are yet to be implemented:
     * `time:intervalDisjoint`
 * `tfun:isIn()`
     * `time:intervalIn`
-    
-
+  
 ### Implementation logic
-Functions are implemented to test for every conceivable way that they may be found to be true in data. For example, `isBefore(a, b)` will return true if:
+Functions implemented test for every conceivable way that a temporal relation may be found to be true in given data. For example, `isBefore(a, b)` will return true if:
 
 * the predicate `time:before` is given between `a` & `b`, or any chain of objects `a` ... `n` ... `b`
 * the predicate `time:after` is given between `b` & `a`, or any chain of objects `b` ... `n` ... `a`
@@ -109,6 +110,14 @@ Functions are implemented to test for every conceivable way that they may be fou
 * `a` can be calculated as being before `b`, based on their instantaneous times or start and end times
     * i.e. for `<a> time:inXSDDateTimeStamp <a_xsd> .` and `<b> time:inXSDDateTimeStamp <b_xsd> .` or  `<a> time:hasEnd/time:inXSDDateTimeStamp <a_xsd> .` and `<b> time:hasEnd/time:inXSDDateTimeStamp <b_xsd> .`, `isBefore(a, b)` is `true` if `<a_xsd> <b_xsd>`
 
+
+## Vocabulary
+The time functions, both implemented and to-be implemented, are listed in a SKOS vocabulary, the source files for which are given in the [voc/](voc/) folder within this repository. The vocabulary is presented online in both RDF (turtle) and HTML (Markdown) formats from these source files, accessible via the namespace IRI:
+
+* <https://w3id.org/timefuncs/voc> - HTML
+* <https://w3id.org/timefuncs/voc.ttl> - RDF
+
+_(The Markdown is auto-generated from the RDF using [pyLODE](https://github.com/rdflib/pyLODE/))_
 
 ## Testing
 All tests are in `tests/` and implemented using [pytest](https://pypi.org/project/pytest/).

@@ -83,7 +83,7 @@ cs: a skos:ConceptScheme ;
     dcterms:modified "2021-07-25"^^xsd:date ;
     dcterms:provenance "This vocabulary was created in July 2021 with the functions implemented loosely following OWL TIME predicates, e.g. isBefore follow time:before, however additional functions not based on TIME predicates have also been added."@en ;
     dcterms:publisher <https://orcid.org/0000-0002-8742-7730> ;
-    owl:versionInfo "0.0.4" ;
+    owl:versionInfo "0.1.0" ;
     skos:definition "SPARQL functions for testing relations between Temporal Entities as defined by the Time Ontology in OWL."@en ;
     skos:hasTopConcept :contains,
         :hasDuring,

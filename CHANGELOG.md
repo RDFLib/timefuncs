@@ -1,3 +1,8 @@
+0.1.0 - July, 2021
+-----
+* SKOS vocabulary of functions incuded
+* PID IRI, https://w3id.org/timefuncs/ resolving
+
 0.0.4 - July, 2021
 -----
 * better working example
