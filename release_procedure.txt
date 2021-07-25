@@ -1,16 +1,18 @@
 1. Update docco
     * README
-    * CHANGELOG - especially <VERSION_NO> on first line
+    * CHANGELOG
 
 2. Update __version__ in `timefuncs/__init__.py` to match release
 
 2. `git commit` changes
 
-3. `git tag <VERSION_NO>`
-
 4. `git push`
 
+3. `git tag <VERSION_NO>`
+
 5. `git push --tags`
+
+6. delete old dist: `rm -r build dist timefuncs.egg-info`
 
 6. `python setup.py sdist bdist_wheel`
 

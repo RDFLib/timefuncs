@@ -1,8 +1,17 @@
 from setuptools import setup
 
+
+def get_version():
+    from pathlib import Path
+    with open(Path(__file__).parent / "timefuncs" / "__init__.py") as file_:
+        for line in file_.readlines():
+            if line.startswith("__version__"):
+                return line.split("\"")[1]
+
+
 setup(
     name="timefuncs",
-    version=__import__("timefuncs").__version__,
+    version=get_version(),
     description="OWL TIME functions implemented as SPARQL extension functions in rdflib",
     long_description=open("README.md", encoding='utf-8').read(),
     long_description_content_type="text/markdown",

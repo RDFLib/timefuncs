@@ -1,3 +1,7 @@
+0.0.4 - July, 2021
+-----
+* better working example
+
 0.0.3
 -----
 * fixing version import for use via PyPI

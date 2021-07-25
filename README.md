@@ -22,29 +22,50 @@ This means they can be used like this (full working script):
 from rdflib import Graph
 from timefuncs import TFUN
 
+
 data = """
     PREFIX : <http://example.com/>
     PREFIX time: <http://www.w3.org/2006/time#>    
     
-    :a01 time:before :b01 . 
+    :a01 a time:TemporalEntity .    
+    :b01 a time:TemporalEntity .
+    :c01 a time:TemporalEntity .
+    :d01 a time:TemporalEntity .
     
-    :a02 time:after :b02 .
+    :a01 time:before :c01 .
+
+    :b01 time:after :c01 .
     """
 
 g = Graph().parse(data=data)
 
 q = """
+    PREFIX tfun: <https://w3id.org/timefuncs/>
+
     SELECT *
     WHERE {
-        ?x ?p ?y .
+        ?x a time:TemporalEntity .
+        ?y a time:TemporalEntity .
+        
         FILTER tfun:isBefore(?x, ?y)
     }
     """
-for r in g.query(q, initNs={"tfun": TFUN}):
+for r in g.query(q):
     print(f"{r['x']} is before {r['y']}")
-
-# prints: http://example.com/a01 is before http://example.com/b0
 ```
+The above stript outputs:
+
+```bash
+http://example.com/a01 is before http://example.com/b01
+http://example.com/a01 is before http://example.com/c01
+http://example.com/b01 is before http://example.com/c01
+```
+
+The above script is run using an environment that has had the time functions registered with its copy of rdflib (perhaps by running `pip install timefuncs`) so that there is no need to import anything other than rdfib and the time functions namespace (`from timefuncs import TFUN`). It may appear that the namespace is not used but it is, internally! No need to re-declare `tfun:` as a `PREFIX` in the SPARQL query...
+
+The time function used here, `tfun:isBefore`, is called as a filter function to return `true` when the first given object, here `?x` is _before_ the second given object, `?y`.
+
+This example uses a pretty open-ended graph pattern match (`?x ?p ?)
 
 ## Functions
 These functions are implemented as SPARQL extension functions with the namespace `https://w3id.org/timefuncs/`, e.g. `isBefore()`'s full IRI is `https://w3id.org/timefuncs/isBefore`.
