@@ -1,0 +1,97 @@
+@prefix : <https://w3id.org/timefuncs/> .
+@prefix cs: <https://w3id.org/timefuncs/voc> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sdo: <https://schema.org/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://linked.data.gov.au/org/anu> a sdo:Organization ;
+    sdo:name "Australian National University" ;
+    sdo:url "https://www.anu.edu.au"^^xsd:anyURI .
+
+<https://linked.data.gov.au/org/surround> a sdo:Organization ;
+    sdo:name "SURROUND Australia Pty Ltd" ;
+    sdo:url "https://surroundaustralia.com"^^xsd:anyURI .
+
+:contains a skos:Concept ;
+    rdfs:isDefinedBy cs: ;
+    skos:definition "A function accepting two Proper Interval parameters, a & b, testing testing whether a contains b with 'contains' defined as per time:intervalContains. Returns a boolean, true if a contains b."@en ;
+    skos:inScheme cs: ;
+    skos:prefLabel "Contains"@en ;
+    skos:topConceptOf cs: .
+
+:hasDuring a skos:Concept ;
+    rdfs:isDefinedBy cs: ;
+    skos:definition "A synonym for `contains`."@en ;
+    skos:inScheme cs: ;
+    skos:prefLabel "Has During"@en ;
+    skos:topConceptOf cs: .
+
+:hasInside a skos:Concept ;
+    rdfs:isDefinedBy cs: ;
+    skos:definition "A function accepting an Interval a and an Instant b, testing testing whether the Interval contains the Instant, as per time:inside. Returns a boolean, true if a contains b."@en ;
+    skos:inScheme cs: ;
+    skos:prefLabel "Has Inside"@en ;
+    skos:topConceptOf cs: .
+
+:isAfter a skos:Concept ;
+    rdfs:isDefinedBy cs: ;
+    skos:definition "A function accepting two Temporal Entity parameters, a & b, testing testing whether a is after b with 'after' defined as per time:after. Returns a boolean, true if a is after b."@en ;
+    skos:inScheme cs: ;
+    skos:prefLabel "Is After"@en ;
+    skos:topConceptOf cs: .
+
+:isBefore a skos:Concept ;
+    rdfs:isDefinedBy cs: ;
+    skos:definition "A function accepting two Temporal Entity parameters, a & b, testing testing whether a is before b with 'before' defined as per time:after. Returns a boolean, true if a is before b."@en ;
+    skos:inScheme cs: ;
+    skos:prefLabel "Is Before"@en ;
+    skos:topConceptOf cs: .
+
+:isContainedBy a skos:Concept ;
+    rdfs:isDefinedBy cs: ;
+    skos:definition "A function accepting two Proper Interval parameters, a & b, testing testing whether a is contained by b with 'is contained by' defined as per 'intervalDuring' by time:intervalDuring. Returns a boolean, true if a is contained by b."@en ;
+    skos:inScheme cs: ;
+    skos:prefLabel "Is Contained By"@en ;
+    skos:topConceptOf cs: .
+
+:isDuring a skos:Concept ;
+    rdfs:isDefinedBy cs: ;
+    skos:definition "A synonym for `isContainedBy`."@en ;
+    skos:inScheme cs: ;
+    skos:prefLabel "Is During"@en ;
+    skos:topConceptOf cs: .
+
+:isInside a skos:Concept ;
+    rdfs:isDefinedBy cs: ;
+    skos:definition "A function accepting an Instant a and an Interval b, testing testing whether the Instant is contained by the Interval, as per the inverse of time:inside. Returns a boolean, true if a is contained by b."@en ;
+    skos:inScheme cs: ;
+    skos:prefLabel "Is Inside"@en ;
+    skos:topConceptOf cs: .
+
+<https://orcid.org/0000-0002-8742-7730> a sdo:Person ;
+    sdo:affiliation <https://linked.data.gov.au/org/anu>,
+        <https://linked.data.gov.au/org/surround> ;
+    sdo:email "nicholas.car@anu.edu.au"^^xsd:anyURI ;
+    sdo:name "Nicholas J. Car" .
+
+cs: a skos:ConceptScheme ;
+    dcterms:created "2021-07-25"^^xsd:date ;
+    dcterms:creator <https://orcid.org/0000-0002-8742-7730> ;
+    dcterms:modified "2021-07-25"^^xsd:date ;
+    dcterms:provenance "This vocabulary was created in July 2021 with the functions implemented loosely following OWL TIME predicates, e.g. isBefore follow time:before, however additional functions not based on TIME predicates have also been added."@en ;
+    dcterms:publisher <https://orcid.org/0000-0002-8742-7730> ;
+    owl:versionInfo "0.0.4" ;
+    skos:definition "SPARQL functions for testing relations between Temporal Entities as defined by the Time Ontology in OWL."@en ;
+    skos:hasTopConcept :contains,
+        :hasDuring,
+        :hasInside,
+        :isAfter,
+        :isBefore,
+        :isContainedBy,
+        :isDuring,
+        :isInside ;
+    skos:prefLabel "OWL TIME Functions"@en .
+
