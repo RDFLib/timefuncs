@@ -37,7 +37,15 @@ SPARQL functions for testing relations between Temporal Entities as defined by t
 
 **Figure 1:** Ontology overview
 ## Concepts
-* [contains](https://w3id.org/timefuncs/contains) (con)* [hasDuring](https://w3id.org/timefuncs/hasDuring) (con)* [hasInside](https://w3id.org/timefuncs/hasInside) (con)* [isAfter](https://w3id.org/timefuncs/isAfter) (con)* [isBefore](https://w3id.org/timefuncs/isBefore) (con)* [isContainedBy](https://w3id.org/timefuncs/isContainedBy) (con)* [isDuring](https://w3id.org/timefuncs/isDuring) (con)* [isInside](https://w3id.org/timefuncs/isInside) (con)
+* [contains](https://w3id.org/timefuncs/contains) (con)
+* [hasDuring](https://w3id.org/timefuncs/hasDuring) (con)
+* [hasInside](https://w3id.org/timefuncs/hasInside) (con)
+* [isAfter](https://w3id.org/timefuncs/isAfter) (con)
+* [isBefore](https://w3id.org/timefuncs/isBefore) (con)
+* [isContainedBy](https://w3id.org/timefuncs/isContainedBy) (con)
+* [isDuring](https://w3id.org/timefuncs/isDuring) (con)
+* [isInside](https://w3id.org/timefuncs/isInside) (con)
+
 ### Contains
 Property | Value
 --- | ---

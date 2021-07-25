@@ -117,6 +117,8 @@ The time functions, both implemented and to-be implemented, are listed in a SKOS
 * <https://w3id.org/timefuncs/voc> - HTML
 * <https://w3id.org/timefuncs/voc.ttl> - RDF
 
+Each function's IRI resolves to its Concept entry in the vocbaulary, for example, <https://w3id.org/timefuncs/isContainedBy> --> <https://github.com/RDFLib/timefuncs/blob/master/voc/timefuncs.md#is-contained-by>.
+
 _(The Markdown is auto-generated from the RDF using [pyLODE](https://github.com/rdflib/pyLODE/))_
 
 ## Testing
