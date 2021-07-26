@@ -72,6 +72,14 @@ def is_before(e, ctx) -> Literal:
         if sorted(x_xsds)[-1] < sorted(ref_xsds)[0]:
             return Literal(True)
 
+    ref_xsds = list(
+        g.objects(b, TIME.hasBeginning * ZeroOrMore / TIME.inXSDDate)
+    )
+    x_xsds = list(g.objects(a, TIME.hasEnd * ZeroOrMore / TIME.inXSDDate))
+    if len(ref_xsds) > 0 and len(x_xsds) > 0:
+        if sorted(x_xsds)[-1] < sorted(ref_xsds)[0]:
+            return Literal(True)
+
     if _path_exists(g, a, b, [(TIME.before, "outbound"), (TIME.after, "inbound")]):
         return Literal(True)
 
@@ -127,6 +135,14 @@ def is_after(e, ctx) -> Literal:
         g.objects(b, TIME.hasBeginning * ZeroOrMore / TIME.inXSDDateTimeStamp)
     )
     x_xsds = list(g.objects(a, TIME.hasEnd * ZeroOrMore / TIME.inXSDDateTimeStamp))
+    if len(ref_xsds) > 0 and len(x_xsds) > 0:
+        if sorted(x_xsds)[0] > sorted(ref_xsds)[-1]:
+            return Literal(True)
+
+    ref_xsds = list(
+        g.objects(b, TIME.hasBeginning * ZeroOrMore / TIME.inXSDDate)
+    )
+    x_xsds = list(g.objects(a, TIME.hasEnd * ZeroOrMore / TIME.inXSDDate))
     if len(ref_xsds) > 0 and len(x_xsds) > 0:
         if sorted(x_xsds)[0] > sorted(ref_xsds)[-1]:
             return Literal(True)
