@@ -70,33 +70,42 @@ The time function used here, `tfun:isBefore`, is called as a filter function to 
 This example uses a pretty open-ended graph pattern match (`?x ?p ?)
 
 ## Functions
-These functions are implemented as SPARQL extension functions with the namespace `https://w3id.org/timefuncs/`, e.g. `isBefore()`'s full IRI is `https://w3id.org/timefuncs/isBefore`.
+Functions in this package are implemented as SPARQL extension functions with the namespace `https://w3id.org/timefuncs/`, e.g. `isBefore()`'s full IRI is `https://w3id.org/timefuncs/isBefore`.
 
 Functions implemented so far, and their corresponding TIME relations:
 
-* `tfun:contains()`
-    * `time:intervalBefore`
-* `tfun:hasDuring()`
-    * alias for `contains()`
-* `tfun:hasInside()`
-    * `time:intervalBefore`
-* `tfun:isAfter()`
-    * `time:after`
-* `tfun:isBefore()`
-    * `time:before`
-* `tfun:isContainedBy()`
-    * `time:intervalBefore`
-* `tfun:isDuring()`
-    * alias for `isContainedBy()`
-* `tfun:isInside()`
-    * `time:inside`
+**SPARQL** | **Python** | **TIME predicates** | **Notes**
+--- | --- | --- | ---
+`tfun:contains()` | `contains()` | `time:intervalContains`<br />inv. `time:intervalDuring` | 
+`tfun:hasDuring()` | `has_during()` | | alias for `contains()`
+`tfun:hasInside()` | `has_inside()` | `time:inside`<br />not `time:before`<br />not `time:after` | 
+`tfun:isAfter()` | `is_after()` | `time:after`<br />inv. `time:before` | 
+`tfun:isBefore()` | `is_before()` | `time:before`<br />inv. `time:after` |
+`tfun:isContainedBy()` | `is_contained_by()` | `time:intervalDuring`<br />inv. `time:intervalContains` | 
+`tfun:isDuring()` | `is_during()` | | alias for `isContainedBy()`
+`tfun:isInside()` | `is_inside()` | inv. `time:inside`<br />not `time:after`<br />not `time:before` |
     
 These functions are yet to be implemented:
 
-* `tfun:isDisjoint()`
-    * `time:intervalDisjoint`
-* `tfun:isIn()`
-    * `time:intervalIn`
+**SPARQL** | **Python** | **TIME predicates** | **Notes**
+--- | --- | --- | ---
+`tfun:finishes()` | `finishes()` | |
+`tfun:hasBeginning()` | `has_beginning()` | |
+`tfun:hasEnd()` | `has_end()` | |
+`tfun:isFinishedBy()` | `is_finished_by()` | |
+`tfun:isBeginningOf()` | `is_beginning_of()` | |
+`tfun:isDisjoint()` | `is_disjoint()` | |
+`tfun:isEndOf()` | `is_end_of()` | |
+`tfun:isEquals()` | `is_equals()` | |
+`tfun:isIn()` | `is_in()` | |
+`tfun:isMetBy()` | `is_met_by()` | |
+`tfun:isNotDisjoint()` | `is_not_disjoint()` | |
+`tfun:isOverlappedBy()` | `is_overlapped_by()` | |
+`tfun:isStartedBy()` | `is_started_by()` | |
+`tfun:meets()` | `meets()` | |
+`tfun:overlaps()` | `overlaps()` | |
+`tfun:starts()` | `starts()` | |
+
   
 ### Implementation logic
 Functions implemented test for every conceivable way that a temporal relation may be found to be true in given data. For example, `isBefore(a, b)` will return true if:
