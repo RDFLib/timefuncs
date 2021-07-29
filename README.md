@@ -72,39 +72,41 @@ This example uses a pretty open-ended graph pattern match (`?x ?p ?)
 ## Functions
 Functions in this package are implemented as SPARQL extension functions with the namespace `https://w3id.org/timefuncs/`, e.g. `isBefore()`'s full IRI is `https://w3id.org/timefuncs/isBefore`.
 
+Python implementations are named the same as the SPARQL functions, but in snake_case, not camelCase, e.g. SPARQL's `isBefore()` is implemented in Python's `is_before()`.
+
 Functions implemented so far, and their corresponding TIME relations:
 
-**SPARQL** | **Python** | **TIME predicates** | **Notes**
+**SPARQL** | **Parameters** | **TIME predicates** | **Notes**
 --- | --- | --- | ---
-`tfun:contains()` | `contains()` | `time:intervalContains`<br />inv. `time:intervalDuring` | 
-`tfun:hasDuring()` | `has_during()` | | alias for `contains()`
-`tfun:hasInside()` | `has_inside()` | `time:inside`<br />not `time:before`<br />not `time:after` | 
-`tfun:isAfter()` | `is_after()` | `time:after`<br />inv. `time:before` | 
-`tfun:isBefore()` | `is_before()` | `time:before`<br />inv. `time:after` |
-`tfun:isContainedBy()` | `is_contained_by()` | `time:intervalDuring`<br />inv. `time:intervalContains` | 
-`tfun:isDuring()` | `is_during()` | | alias for `isContainedBy()`
-`tfun:isInside()` | `is_inside()` | inv. `time:inside`<br />not `time:after`<br />not `time:before` |
+`tfun:contains(a, b)` | `time:Interval`<br />`time:Interval` | `time:intervalContains`<br />inv. `time:intervalDuring` | equivalent to `tfun:isContainedBy(b, a)`
+`tfun:hasDuring(a, b)` | `time:Interval`<br />`time:Interval` | | alias for `contains(a, b)`
+`tfun:hasInside(a, b)` | `time:Interval`<br />`time:Instant` | `time:inside`<br />not `time:before`<br />not `time:after` | equivalent to `tfun:isInside(b, a)`
+`tfun:isAfter(a, b)` | `time:TemporalEntity`<br />`time:TemporalEntity` | `time:after`<br />inv. `time:before` | equivalent to `tfun:isBefore(b, a)`
+`tfun:isBefore(a, b)` | `time:TemporalEntity`<br />`time:TemporalEntity` | `time:before`<br />inv. `time:after` | equivalent to `tfun:isAfter(b, a)`
+`tfun:isContainedBy(a, b)` | `time:Interval`<br />`time:Interval` | `time:intervalDuring`<br />inv. `time:intervalContains` | equivalent to `tfun:contains(b, a)`
+`tfun:isDuring(a, b)` | `time:Interval`<br />`time:Interval` | | alias for `isContainedBy(a, b)`
+`tfun:isInside(a, b)` | `time:Instant`<br />`time:Interval` | inv. `time:inside`<br />not `time:after`<br />not `time:before` | equivalent to `tfun:hasInside(b, a)`
     
 These functions are yet to be implemented:
 
-**SPARQL** | **Python** | **TIME predicates** | **Notes**
---- | --- | --- | ---
-`tfun:finishes()` | `finishes()` | |
-`tfun:hasBeginning()` | `has_beginning()` | |
-`tfun:hasEnd()` | `has_end()` | |
-`tfun:isFinishedBy()` | `is_finished_by()` | |
-`tfun:isBeginningOf()` | `is_beginning_of()` | |
-`tfun:isDisjoint()` | `is_disjoint()` | |
-`tfun:isEndOf()` | `is_end_of()` | |
-`tfun:isEquals()` | `is_equals()` | |
-`tfun:isIn()` | `is_in()` | |
-`tfun:isMetBy()` | `is_met_by()` | |
-`tfun:isNotDisjoint()` | `is_not_disjoint()` | |
-`tfun:isOverlappedBy()` | `is_overlapped_by()` | |
-`tfun:isStartedBy()` | `is_started_by()` | |
-`tfun:meets()` | `meets()` | |
-`tfun:overlaps()` | `overlaps()` | |
-`tfun:starts()` | `starts()` | |
+**SPARQL** | **Notes**
+--- | ---
+`tfun:finishes(a, b)` | 
+`tfun:hasBeginning(a, b)` | 
+`tfun:hasEnd(a, b)` | 
+`tfun:isFinishedBy(a, b)` | 
+`tfun:isBeginningOf(a, b)` | 
+`tfun:isDisjoint(a, b)` | 
+`tfun:isEndOf(a, b)` | 
+`tfun:isEquals(a, b)` | 
+`tfun:isIn(a, b)` | 
+`tfun:isMetBy(a, b)` | 
+`tfun:isNotDisjoint(a, b)` | 
+`tfun:isOverlappedBy(a, b)` | 
+`tfun:isStartedBy(a, b)` | 
+`tfun:meets(a, b)` | 
+`tfun:overlaps(a, b)` | 
+`tfun:starts(a, b)` | 
 
   
 ### Implementation logic
