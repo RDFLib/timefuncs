@@ -1,3 +1,8 @@
+0.1.2 - July, 2021
+------------------
+* initial finishes() function
+* some notes on future, non-TIME functions in README
+
 0.1.1 - July, 2021
 ------------------
 * ensure pytest runs across all tests without path additions
