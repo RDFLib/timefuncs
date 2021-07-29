@@ -2,6 +2,8 @@ from pathlib import Path
 from rdflib import Graph, Namespace
 from rdflib.namespace import TIME
 
+import sys
+sys.path.append(str(Path(__file__).parent.parent))
 from timefuncs import is_inside
 
 TFUN = Namespace("https://w3id.org/timefuncs/")

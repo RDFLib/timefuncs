@@ -1,5 +1,7 @@
+from typing import Union, List, Tuple
+from typing import Literal as TLiteral
 from pathlib import Path
-from rdflib import Graph, Namespace, URIRef
+from rdflib import Graph, Namespace, URIRef, BNode
 from rdflib import TIME
 from rdflib.paths import ZeroOrMore, OneOrMore
 
@@ -19,12 +21,12 @@ def is_before_sparql(g: Graph, a: URIRef, b: URIRef):
             {
                 SELECT *
                 WHERE {
-                    {b
-                      ?a time:hasEnd?/time:before ?b .
+                    {
+                      ?a time:hasEnd?/time:before+ ?b .
                     } UNION {
                       ?b time:hasBeginning?/time:after+ ?a .
                     } UNION {
-                      ?a time:hasBeginning?/time:after ?z .
+                      ?b time:hasBeginning?/time:after ?z .
                       ?a time:hasEnd ?z .
                     } UNION {
                       ?b time:hasBeginning ?z .
@@ -36,7 +38,7 @@ def is_before_sparql(g: Graph, a: URIRef, b: URIRef):
             {
                 SELECT *
                 WHERE {
-                    ?a time:hasEnd?/time:inXSDDateTimeStamp ?xXSD .
+                    ?a time:hasEnd?/time:inXSDDateTimeStamp ?aXSD .
                     ?b time:hasBeginning?/time:inXSDDateTimeStamp ?bXSD .                    
         
                     FILTER (?aXSD < ?bXSD)
@@ -82,29 +84,60 @@ def is_before_rdflib(g: Graph, a: URIRef, b: URIRef):
         if sorted(x_xsds)[-1] < sorted(ref_xsds)[0]:
             return True
 
-    def _get_next_before_after_as_before(n):
-        nexts = []
-        for o in g.objects(n, TIME.before):
-            nexts.append(o)
-        for s in g.subjects(TIME.after, n):
-            nexts.append(s)
-        return nexts
-
-    chain = [a]
-    while True:
-        next = []
-        for c in chain:
-            next.append(_get_next_before_after_as_before(c))
-        # there are no next items
-        if not next:
-            break
-        # one of the next items is b
-        if b in next:
-            return True
-        chain = next
-        print(next)
+    if _path_exists(g, a, b, [(TIME.before, "outbound"), (TIME.after, "inbound")]):
+        return True
 
     return False
+
+
+def _path_exists(
+    g: Graph,
+    a: Union[URIRef, BNode],
+    b: Union[URIRef, BNode],
+    predicates: List[Tuple[URIRef, TLiteral["outbound", "inbound"]]],
+) -> bool:
+    """Finds if any path between RDF nodes a and b in graph g exists,
+    following any of the predicates supplied, in any order.
+
+    This function is a support function for the names TIME functions such as is_before."""
+
+    if a == b:
+        return False
+
+    def _get_next_nodes(node, preds):
+        """Finds any nodes linked to a given node, 'node' via any of the given predicates 'pred'.
+
+        Looks for both s pred o and o pred s (inverse)"""
+        next_nodes = []
+
+        for p in preds:
+            if p[1] == "outbound":
+                for o in g.objects(subject=node, predicate=p[0]):
+                    next_nodes.append(o)
+            elif p[1] == "inbound":
+                for s in g.subjects(predicate=p[0], object=node):
+                    next_nodes.append(s)
+
+        return next_nodes
+
+    # standard breadth-first search
+    def bfs(node):
+        visited = []
+        queue = []
+        visited.append(node)
+        queue.append(node)
+
+        while queue:
+            s = queue.pop(0)
+            for x in _get_next_nodes(s, predicates):
+                if x == b:
+                    return True
+                if x not in visited:
+                    visited.append(x)
+                    queue.append(x)
+        return False
+
+    return bfs(a)
 
 
 def test_is_before_sparql():
