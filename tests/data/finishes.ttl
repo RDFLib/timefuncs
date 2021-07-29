@@ -1,0 +1,74 @@
+PREFIX time: <http://www.w3.org/2006/time#>
+PREFIX : <https://w3id.org/timefuncs/testdata/finishes/>
+
+:a01 a time:Interval .
+:b01 a time:Interval .
+
+:a02 a time:Instant .
+:b02 a time:Interval .
+
+:a03 a time:Interval .
+:b03 a time:Interval .
+
+:a04 a time:Interval .
+:b04 a time:Interval .
+
+:a05 a time:Interval .
+:b05 a time:Interval .
+
+:a06 a time:Interval .
+:b06 a time:Interval .
+
+:a07 a time:Interval .
+:b07 a time:Interval .
+
+:a08 a time:ProperInterval .
+:b08 a time:Interval .
+
+:a09 a time:Interval .
+:b09 a time:ProperInterval .
+
+:a10 a time:ProperInterval .
+:b10 a time:ProperInterval .
+
+:a01 time:intervalFinishes :b01 .
+
+# fails due to a being of type time:Instant
+:a02 time:intervalFinishes :b02 .
+
+:b03 time:intervalFinishedBy :a03 .
+
+:a04 time:intervalFinishes :x04 .
+:x04 time:intervalFinishes :y04 .
+:y04 time:intervalFinishes :b04 .
+
+:a05 time:intervalFinishes :x05 .
+:y05 time:intervalFinishedBy :x05 .
+:z05 time:intervalFinishedBy :y05 .
+:z05 time:intervalFinishes :w05 .
+:b05 time:intervalFinishedBy :w05 .
+
+:a06
+    time:hasBeginning [ time:inXSDDateTimeStamp "2021-07-29T00:00:01Z" ] ;
+    time:hasEnd [ time:inXSDDateTimeStamp "2021-07-29T00:00:02Z" ] ;
+.
+:b06
+    time:hasBeginning [ time:inXSDDateTimeStamp "2021-07-29T00:00:00Z" ] ;
+    time:hasEnd [ time:inXSDDateTimeStamp "2021-07-29T00:00:02Z" ] ;
+.
+
+# a time:finishes x time:intervalEquals y time:intervalEquals b
+:a07
+    time:hasBeginning [ time:inXSDDateTimeStamp "2021-07-30T00:00:01Z" ] ;
+    time:hasEnd [ time:inXSDDateTimeStamp "2021-07-30T00:00:02Z" ] ;
+.
+:x07
+    time:hasBeginning [ time:inXSDDateTimeStamp "2021-07-30T00:00:00Z" ] ;
+    time:hasEnd [ time:inXSDDateTimeStamp "2021-07-30T00:00:02Z" ] ;
+.
+:x07 time:intervalEquals :y07 .
+:y07 time:intervalEquals :z07 .
+
+:a08 time:intervalFinishes :x08 .
+:x08 time:intervalEquals :y08 .
+:y08 time:intervalEquals :b08 .

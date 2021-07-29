@@ -2,6 +2,7 @@ from .funcs import (
     contains,
     has_during,
     has_inside,
+    finishes,
     is_after,
     is_before,
     is_contained_by,
@@ -17,6 +18,7 @@ TFUN = Namespace("https://w3id.org/timefuncs/")
 register_custom_function(TFUN.contains, contains, raw=True)
 register_custom_function(TFUN.hasDuring, has_during, raw=True)
 register_custom_function(TFUN.hasInside, has_inside, raw=True)
+register_custom_function(TFUN.finishes, finishes, raw=True)
 register_custom_function(TFUN.isAfter, is_after, raw=True)
 register_custom_function(TFUN.isBefore, is_before, raw=True)
 register_custom_function(TFUN.isContainedBy, is_contained_by, raw=True)
