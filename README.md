@@ -113,6 +113,15 @@ These functions are yet to be implemented:
 `tfun:overlaps(a, b)` | 
 `tfun:starts(a, b)` | 
 
+### Non-TIME functions
+The following _proposed_ functions are inspired by OWL TIME but not directly related to its predicates or classes:
+
+**SPARQL** | **Notes**
+--- | ---
+`tfun:hasTemporalRelation(a, b)` | Returns the temporal relation between `a` & `b`<br />May have to run sequences of the other `isDisjoint(a, b)` functions to determine
+`tfun:toUNIXTime(a)` | Returns a UNIX Time representation of a `xsd:dateTime` or `xsd:dateTimeStamp`<br />May be extended for other TRS inputs
+`tfun:toXSDDateTimeStamp(a)` | Returns an XSD `xsd:dateTimeStamp` (UTC) representation of a UNIX time<br />May be extended for other TRS inputs
+
   
 ### Implementation logic
 Functions implemented test for every conceivable way that a temporal relation may be found to be true in given data. For example, `isBefore(a, b)` will return true if:
