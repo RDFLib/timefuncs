@@ -10,9 +10,9 @@ This repository also contains a formal declaration of the functions that this pa
 
 
 ## Installation 
-Normal installation e.g. from PyPI: `pip install timefuncs`.
+Normal Python package installation e.g. from PyPI: `pip install timefuncs`.
 
-This package's only dependency is [RDFlib](https://pypi.org/project/rdflib/).
+This package's only non-standard dependency is [RDFlib](https://pypi.org/project/rdflib/).
 
 
 ## Use
@@ -67,7 +67,12 @@ The above script is run using an environment that has had the time functions reg
 
 The time function used here, `tfun:isBefore`, is called as a filter function to return `true` when the first given object, here `?x` is _before_ the second given object, `?y`.
 
-This example uses a pretty open-ended graph pattern match (`?x ?p ?)
+This example uses a pretty open-ended graph pattern match (`?x ?p ?y).
+
+### Working with Reasoning / Inferencing
+These functions don't assume that any reasoning has been carried out on data and will correctly interpret `time:before` / `time:after` and similar inverses, transitive relations (chains of properties) and so on. But there are limits: you will always be able to invent highly complex relations between `time:TemporalEntity` instances that these functions won't correctly work with. 
+
+To work with highly complex data, try reasoning over your data first with OWL TIME's axioms before running these functions. To do this, you need a tool that can calculate OWL "RL" inferences, such as [rdflib's OWL-RL](https://github.com/RDFLib/OWL-RL). Many triplestores have OWL-RL reasoning capability built-in or as add ons.
 
 ## Functions
 Functions in this package are implemented as SPARQL extension functions with the namespace `https://w3id.org/timefuncs/`, e.g. `isBefore()`'s full IRI is `https://w3id.org/timefuncs/isBefore`.
@@ -79,6 +84,7 @@ Functions implemented so far, and their corresponding TIME relations:
 **SPARQL** | **Parameters** | **TIME predicates** | **Notes**
 --- | --- | --- | ---
 `tfun:contains(a, b)` | `time:Interval`<br />`time:Interval` | `time:intervalContains`<br />inv. `time:intervalDuring` | equivalent to `tfun:isContainedBy(b, a)`
+`tfun:finishes(a, b)` | `time:Interval`<br />`time:Interval` | `time:intervalFinishes`<br />inv. `time:intervalFinishedBy`<br />not `time:disjoint` | equivalent to `tfun:isFinishedBy(b, a)`
 `tfun:hasDuring(a, b)` | `time:Interval`<br />`time:Interval` | | alias for `contains(a, b)`
 `tfun:hasInside(a, b)` | `time:Interval`<br />`time:Instant` | `time:inside`<br />not `time:before`<br />not `time:after` | equivalent to `tfun:isInside(b, a)`
 `tfun:isAfter(a, b)` | `time:TemporalEntity`<br />`time:TemporalEntity` | `time:after`<br />inv. `time:before` | equivalent to `tfun:isBefore(b, a)`
@@ -91,7 +97,6 @@ These functions are yet to be implemented:
 
 **SPARQL** | **Notes**
 --- | ---
-`tfun:finishes(a, b)` | 
 `tfun:hasBeginning(a, b)` | 
 `tfun:hasEnd(a, b)` | 
 `tfun:isFinishedBy(a, b)` | 
