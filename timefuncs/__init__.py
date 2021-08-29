@@ -7,6 +7,7 @@ from .funcs import (
     is_before,
     is_contained_by,
     is_during,
+    is_finished_by,
     is_inside,
 )
 from rdflib import Namespace
@@ -23,4 +24,5 @@ register_custom_function(TFUN.isAfter, is_after, raw=True)
 register_custom_function(TFUN.isBefore, is_before, raw=True)
 register_custom_function(TFUN.isContainedBy, is_contained_by, raw=True)
 register_custom_function(TFUN.isDuring, is_during, raw=True)
+register_custom_function(TFUN.isFinishedBy, is_finished_by, raw=True)
 register_custom_function(TFUN.isInside, is_inside, raw=True)
