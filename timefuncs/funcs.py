@@ -142,14 +142,14 @@ def finishes(e, ctx) -> Literal:
     "If a proper interval T1 is intervalFinishes another proper interval T2, then the beginning of T1 is after the
     beginning of T2, and the end of T1 is coincident with the end of T2."
 
-    Returns Literal(true) if a and be are Intervals and the the beginning of a is after the beginning of b,
+    Returns Literal(true) if a and be are ProperIntervals and the beginning of a is after the beginning of b,
     and the end of a is coincident with the end of b. Else returns False.
 
     Example:
 
     SELECT ?a ?b
     WHERE {
-        ?a a time:Interval .
+        ?a a time:ProperInterval .
         ?b a time:ProperInterval .
 
         FILTER tfun:finishes(?a, ?b)
@@ -440,14 +440,14 @@ def is_finished_by(e, ctx) -> Literal:
     "If a proper interval T1 is intervalFinishedBy another proper interval T2, then the beginning of T1 is before
     the beginning of T2, and the end of T1 is coincident with the end of T2."
 
-    Returns Literal(true) if a and be are Intervals and the the beginning of b is after the beginning of a,
+    Returns Literal(true) if a and be are ProperIntervals and the beginning of b is after the beginning of a,
     and the end of b is coincident with the end of a. Else returns False.
 
     Example:
 
     SELECT ?a ?b
     WHERE {
-        ?a a time:Interval .
+        ?a a time:ProperInterval .
         ?b a time:ProperInterval .
 
         FILTER tfun:isFinishedBy(?a, ?b)
@@ -748,8 +748,67 @@ def is_overlapped_by(e, ctx) -> Literal:
 def is_started_by(e, ctx) -> Literal:
     """SPARQL tfun:isStartedBy(a, b)
 
+    From https://www.w3.org/TR/owl-time/#time:intervalStarts:
+    "If a proper interval T1 is intervalStartedBy another proper interval T2, then the beginning of T1 is coincident
+    with the beginning of T2, and the end of T1 is after the end of T2. "
+
+    Returns Literal(true) if a and be are ProperIntervals and the beginning of b is coincident with the beginning
+    of a, and the end of b is before the end of a. Else returns False.
+
+    Example:
+
+    SELECT ?a ?b
+    WHERE {
+        ?a a time:ProperInterval .
+        ?b a time:ProperInterval .
+
+        FILTER tfun:isStartedBy(?a, ?b)
+    }
+
+    tfun:isStartedBy(a, b) is equivalent to tfun:starts(b, a)
     """
-    raise NotImplementedError()
+    try:
+        a = e.expr[0]
+        b = e.expr[1]
+    except Exception as err:
+        raise ValueError(
+            "This function, isInside(a, b), requires two IRI parameters, "
+            "where a & b are Time Ontology Instant and Interval instances, respectively. "
+            "a is tested to be inside b"
+        )
+
+    g = ctx.ctx.graph
+
+    # a must be some form of Interval
+    if (a, RDF.type, TIME.Interval) not in g and (a, RDF.type, TIME.ProperInterval) not in g:
+        return Literal(False)
+
+    # b must be some form of Interval
+    if (b, RDF.type, TIME.Interval) not in g and (b, RDF.type, TIME.ProperInterval) not in g:
+        return Literal(False)
+
+    # direct or transitive declared relations
+    if _path_exists(
+        g, a, b, [
+                (TIME.intervalStartedBy, "outbound"), (TIME.intervalStarts, "inbound"),
+                (TIME.intervalEquals, "outbound"), (TIME.intervalEquals, "inbound")
+            ]
+    ):
+        return Literal(True)
+
+    # the beginning of a is coincident with the beginning of b, and the end of a is before the end of b
+    for o in g.objects(a, TIME.hasBeginning):
+        for a_beg in g.objects(o, TIME.inXSDDateTimeStamp):
+            for o2 in g.objects(b, TIME.hasBeginning):
+                for b_beg in g.objects(o2, TIME.inXSDDateTimeStamp):
+                    for o3 in g.objects(a, TIME.hasEnd):
+                        for a_end in g.objects(o3, TIME.inXSDDateTimeStamp):
+                            for o4 in g.objects(b, TIME.hasEnd):
+                                for b_end in g.objects(o4, TIME.inXSDDateTimeStamp):
+                                    if a_beg == b_beg and a_end < b_end and a_beg < a_end and b_beg < b_end:
+                                        return Literal(True)
+
+    return Literal(False)
 
 
 # 22
@@ -772,8 +831,67 @@ def overlaps(e, ctx) -> Literal:
 def starts(e, ctx) -> Literal:
     """SPARQL tfun:starts(a, b)
 
+    From https://www.w3.org/TR/owl-time/#time:intervalStarts:
+    "If a proper interval T1 is intervalStarts another proper interval T2, then the beginning of T1 is coincident
+    with the beginning of T2, and the end of T1 is before the end of T2. "
+
+    Returns Literal(true) if a and be are ProperIntervals and the beginning of a is coincident with the beginning
+    of b, and the end of a is before the end of b. Else returns False.
+
+    Example:
+
+    SELECT ?a ?b
+    WHERE {
+        ?a a time:ProperInterval .
+        ?b a time:ProperInterval .
+
+        FILTER tfun:starts(?a, ?b)
+    }
+
+    tfun:starts(a, b) is equivalent to tfun:isStartedBy(b, a)
     """
-    raise NotImplementedError()
+    try:
+        a = e.expr[0]
+        b = e.expr[1]
+    except Exception as err:
+        raise ValueError(
+            "This function, isInside(a, b), requires two IRI parameters, "
+            "where a & b are Time Ontology Instant and Interval instances, respectively. "
+            "a is tested to be inside b"
+        )
+
+    g = ctx.ctx.graph
+
+    # a must be some form of Interval
+    if (a, RDF.type, TIME.Interval) not in g and (a, RDF.type, TIME.ProperInterval) not in g:
+        return Literal(False)
+
+    # b must be some form of Interval
+    if (b, RDF.type, TIME.Interval) not in g and (b, RDF.type, TIME.ProperInterval) not in g:
+        return Literal(False)
+
+    # direct or transitive declared relations
+    if _path_exists(
+        g, a, b, [
+                (TIME.intervalStarts, "outbound"), (TIME.intervalStartedBy, "inbound"),
+                (TIME.intervalEquals, "outbound"), (TIME.intervalEquals, "inbound")
+            ]
+    ):
+        return Literal(True)
+
+    # the beginning of a is coincident with the beginning of b, and the end of a is before the end of b
+    for o in g.objects(a, TIME.hasBeginning):
+        for a_beg in g.objects(o, TIME.inXSDDateTimeStamp):
+            for o2 in g.objects(b, TIME.hasBeginning):
+                for b_beg in g.objects(o2, TIME.inXSDDateTimeStamp):
+                    for o3 in g.objects(a, TIME.hasEnd):
+                        for a_end in g.objects(o3, TIME.inXSDDateTimeStamp):
+                            for o4 in g.objects(b, TIME.hasEnd):
+                                for b_end in g.objects(o4, TIME.inXSDDateTimeStamp):
+                                    if a_beg == b_beg and a_end < b_end and a_beg < a_end and b_beg < b_end:
+                                        return Literal(True)
+
+    return Literal(False)
 
 
 def _path_exists(
