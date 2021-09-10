@@ -15,7 +15,7 @@ from .funcs import (
 from rdflib import Namespace
 from rdflib.plugins.sparql.operators import register_custom_function
 
-__version__ = "0.1.3"
+__version__ = "0.1.4"
 TFUN = Namespace("https://w3id.org/timefuncs/")
 
 register_custom_function(TFUN.contains, contains, raw=True)

@@ -91,7 +91,10 @@ Functions implemented so far, and their corresponding TIME relations:
 `tfun:isBefore(a, b)` | `time:TemporalEntity`<br />`time:TemporalEntity` | `time:before`<br />inv. `time:after` | equivalent to `tfun:isAfter(b, a)`
 `tfun:isContainedBy(a, b)` | `time:Interval`<br />`time:Interval` | `time:intervalDuring`<br />inv. `time:intervalContains` | equivalent to `tfun:contains(b, a)`
 `tfun:isDuring(a, b)` | `time:Interval`<br />`time:Interval` | | alias for `isContainedBy(a, b)`
+`tfun:isFinishedBy(a, b)` | `time:Interval`<br />`time:Interval` | `time:intervalFinishedBy`<br />inv. `time:intervalFinishes`<br />not `time:disjoint` | equivalent to `tfun:finishes(b, a)`
 `tfun:isInside(a, b)` | `time:Instant`<br />`time:Interval` | inv. `time:inside`<br />not `time:after`<br />not `time:before` | equivalent to `tfun:hasInside(b, a)`
+`tfun:isStartedBy(a, b)` | `time:Interval`<br />`time:Interval` | `time:isStartedBy`<br />inv. `time:starts` | `tfun:starts(b, a)` 
+`tfun:starts(a, b)` | `time:Interval`<br />`time:Interval` | `time:starts`<br />inv. `time:isStartedBy` | `tfun:isStartedBy(b, a)` 
     
 These functions are yet to be implemented:
 
@@ -110,8 +113,7 @@ These functions are yet to be implemented:
 `tfun:isOverlappedBy(a, b)` | 
 `tfun:isStartedBy(a, b)` | 
 `tfun:meets(a, b)` | 
-`tfun:overlaps(a, b)` | 
-`tfun:starts(a, b)` | 
+`tfun:overlaps(a, b)` |
 
 ### Non-TIME functions
 The following _proposed_ functions are inspired by OWL TIME but not directly related to its predicates or classes:

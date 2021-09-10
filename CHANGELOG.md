@@ -1,3 +1,12 @@
+0.1.4 - September, 2021
+--------------------
+* docco updates only
+
+0.1.3 - August, 2021
+--------------------
+* finishes completed
+* starts, isStartedBy& isFinishedBy added
+
 0.1.2 - July, 2021
 ------------------
 * initial finishes() function
